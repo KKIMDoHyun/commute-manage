@@ -9,7 +9,7 @@ function App() {
         try {
             const { data } = await supabase
                 .from("commute_time")
-                .select("arrive_item")
+                .select("arrive_time")
                 .eq(
                     "todayDate",
                     new Date()
@@ -18,13 +18,17 @@ function App() {
                         .replace(/\s/g, "-")
                 );
 
-            console.log("DATA", data);
+            if (data) {
+                console.log(
+                    "DATA",
+                    new Date(data[0].arrive_time).toLocaleTimeString()
+                );
+            }
         } catch (err) {
             console.log(err);
         }
     };
     console.log(
-        // arriveTime,
         new Date().toLocaleDateString().replace(/\./g, "").replace(/\s/g, "-")
     );
     temp();
