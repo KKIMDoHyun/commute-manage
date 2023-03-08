@@ -1,10 +1,33 @@
 import React, { useState } from "react";
 
 import "./App.css";
+import { supabase } from "./utils/supabase";
 
 function App() {
     const [count, setCount] = useState(0);
+    const temp = async () => {
+        try {
+            const { data } = await supabase
+                .from("commute_time")
+                .select("arrive_item")
+                .eq(
+                    "todayDate",
+                    new Date()
+                        .toLocaleDateString()
+                        .replace(/\./g, "")
+                        .replace(/\s/g, "-")
+                );
 
+            console.log("DATA", data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    console.log(
+        // arriveTime,
+        new Date().toLocaleDateString().replace(/\./g, "").replace(/\s/g, "-")
+    );
+    temp();
     return (
         <div className="App">
             <h1>Vite + React</h1>

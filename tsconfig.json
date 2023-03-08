@@ -14,20 +14,20 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx",
-        "baseUrl": ".",
-        "paths": {
-            "@apis/*": ["src/apis/*"],
-            "@assets/*": ["src/assets/*"],
-            "@components/*": ["src/components/*"],
-            "@pages/*": ["src/pages/*"],
-            "@routes/*": ["src/routes/*"],
-            "@stores/*": ["src/stores/*"],
-            "@types/*": ["src/types/*"],
-            "@utils/*": ["src/utils/*"],
-            "@/*": ["src/*"]
-        }
+        "jsx": "react-jsx"
     },
     "include": ["src"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    "references": [{ "path": "./tsconfig.node.json" }],
+    "baseUrl": ".",
+    "paths": {
+        "@apis/*": ["src/apis/*"],
+        "@assets/*": ["src/assets/*"],
+        "@components/*": ["src/components/*"],
+        "@pages/*": ["src/pages/*"],
+        "@routes/*": ["src/routes/*"],
+        "@stores/*": ["src/stores/*"],
+        "@types/*": ["src/types/*"],
+        "@utils/*": ["src/utils/*"],
+        "@/*": ["src/*"]
+    }
 }

@@ -1,4 +1,4 @@
-import { supabase } from "@utils/supabase";
+import { supabase } from "../../utils/supabase";
 
 export const getArriveTime = async () => {
     const { data: arriveTime } = await supabase
