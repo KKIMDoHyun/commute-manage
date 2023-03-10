@@ -3,6 +3,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getCommuteRecordList } from "../../apis/recordList";
+import { DateFormat, TimeFormat } from "../../utils/format";
 import { ArriveButton } from "./ArriveButton";
 
 export const Home = () => {
@@ -50,11 +51,17 @@ export const Home = () => {
                             className="flex flex-col divide-y divide-slate-700"
                         >
                             <div className="flex p-2 bg-slate-300 box-border items-center">
-                                <span>{v.arrive_time} IN</span>
+                                <span>
+                                    {DateFormat(v.arrive_time)}{" "}
+                                    {TimeFormat(v.arrive_time)} IN
+                                </span>
                             </div>
                             <div className="flex p-2 box-border items-center">
                                 {v.leave_time && (
-                                    <span>{v.leave_time} OUT</span>
+                                    <span>
+                                        {DateFormat(v.leave_time)}{" "}
+                                        {TimeFormat(v.leave_time)} OUT
+                                    </span>
                                 )}
                             </div>
                         </div>
