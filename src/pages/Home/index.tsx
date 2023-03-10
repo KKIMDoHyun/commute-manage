@@ -1,6 +1,7 @@
 import React from "react";
 
 import { supabase } from "../../utils/supabase";
+import { ArriveButton } from "./ArriveButton";
 
 export const Home = () => {
     const temp = async () => {
@@ -44,7 +45,7 @@ export const Home = () => {
                 </div>
             </div>
             <div className="flex flex-row w-5/6 h-1/6 bg-red-800 items-center gap-8">
-                <button className="bg-red-500 w-full h-2/4">출근하기</button>
+                <ArriveButton />
                 <button className="bg-red-500 w-full h-2/4">퇴근하기</button>
             </div>
         </div>
