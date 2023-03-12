@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 
+import { commuteRecordListAtom } from "../stores";
 import { supabase } from "../utils/supabase";
 
 export const getCommuteRecordList = async () => {
@@ -15,5 +17,13 @@ export const getCommuteRecordList = async () => {
 };
 
 export const useGetCommuteRecordList = () => {
-    return useQuery(["GET_COMMUTE_RECORD_LIST"], () => getCommuteRecordList());
+    const setCommuteRecordList = useSetAtom(commuteRecordListAtom);
+    return useQuery(["GET_COMMUTE_RECORD_LIST"], () => getCommuteRecordList(), {
+        onSuccess: (res: any) => {
+            setCommuteRecordList(res.reverse());
+        },
+        onError: (err) => {
+            console.log(err);
+        },
+    });
 };

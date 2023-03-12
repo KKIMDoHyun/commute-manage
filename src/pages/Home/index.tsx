@@ -1,15 +1,17 @@
 import React from "react";
 
+import { useAtomValue } from "jotai";
+
 import { useGetCommuteRecordList } from "../../apis/recordList";
+import { commuteRecordListAtom } from "../../stores";
+import { TCommuteRecordList } from "../../types";
 import { DateFormat, TimeFormat } from "../../utils/format";
 import { ArriveButton } from "./ArriveButton";
 
 export const Home = () => {
-    const {
-        data: commuteRecordList,
-        isLoading,
-        isError,
-    } = useGetCommuteRecordList();
+    const commuteRecordList = useAtomValue(commuteRecordListAtom);
+
+    const { isLoading, isError } = useGetCommuteRecordList();
 
     if (isLoading) {
         return <div>로딩중...</div>;
@@ -19,37 +21,37 @@ export const Home = () => {
     }
     return (
         <div className="flex flex-col w-screen items-center pt-8 gap-12">
-            <div className="flex flex-col w-5/6 h-1/2 border-black border-2 overflow-auto divide-y divide-slate-700">
-                {commuteRecordList?.map((v: any) => {
+            <div className="flex flex-col w-5/6 h-96 border-black border-2 overflow-auto divide-y divide-slate-700">
+                {commuteRecordList?.map((v: TCommuteRecordList) => {
                     return (
                         <div
                             key={v.id}
-                            className="flex flex-col divide-y divide-slate-700 flex-1"
+                            className="flex flex-col divide-y divide-slate-700"
                         >
-                            <div className="flex p-2 bg-slate-300 box-border items-center flex-1">
-                                <span className="flex flex-1 justify-center items-center">
-                                    {DateFormat(v.arrive_time)}
-                                </span>
-                                <span className="flex flex-1 justify-center items-center font-bold">
-                                    {TimeFormat(v.arrive_time)}
-                                </span>
-                                <span className="flex flex-1 justify-center items-center text-red-600 font-bold">
-                                    IN
-                                </span>
-                            </div>
                             {v.leave_time && (
-                                <div className="flex p-2 box-border items-center flex-1">
-                                    <span className="flex flex-1 justify-center items-center">
+                                <div className="flex p-2 box-border items-center flex-1 font-bold">
+                                    <span className="flex flex-1 justify-center items-center text-sm">
                                         {DateFormat(v.leave_time)}
                                     </span>
-                                    <span className="flex flex-1 justify-center items-center font-bold">
+                                    <span className="flex flex-1 justify-center items-center">
                                         {TimeFormat(v.leave_time)}
                                     </span>
-                                    <span className="flex flex-1 justify-center items-center text-blue-600 font-bold">
+                                    <span className="flex flex-1 justify-center items-center text-blue-600">
                                         OUT
                                     </span>
                                 </div>
                             )}
+                            <div className="flex p-2 bg-slate-300 box-border items-center font-bold">
+                                <span className="flex flex-1 justify-center items-center text-sm">
+                                    {DateFormat(v.arrive_time)}
+                                </span>
+                                <span className="flex flex-1 justify-center items-center">
+                                    {TimeFormat(v.arrive_time)}
+                                </span>
+                                <span className="flex flex-1 justify-center items-center text-red-600">
+                                    IN
+                                </span>
+                            </div>
                         </div>
                     );
                 })}

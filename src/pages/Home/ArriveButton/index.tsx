@@ -19,9 +19,6 @@ export const ArriveButton = () => {
         console.log("성공");
         console.log(data);
     }
-    if (setArriveTimeMutation.isError) {
-        return <div>에러</div>;
-    }
     return (
         <button
             className="bg-red-500 w-full h-2/4"

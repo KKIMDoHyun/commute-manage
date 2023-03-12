@@ -1,7 +1,10 @@
+const dayFormat: string[] = ["일", "월", "화", "수", "목", "금", "토", "일"];
+
 export const DateFormat = (date: string) => {
     const time = new Date(date);
-    console.log(time);
-    return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`;
+    return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} (${
+        dayFormat[time.getDay()]
+    })`;
 };
 
 export const TimeFormat = (date: string) => {

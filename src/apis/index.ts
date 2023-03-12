@@ -34,5 +34,8 @@ export const setArriveTime = async (payload: SettingArriveTimeType) => {
 };
 
 export const useSetArriveTime = (payload: SettingArriveTimeType) => {
-    return useMutation(["SET_ARRIVE_TIME"], () => setArriveTime(payload));
+    return useMutation(["SET_ARRIVE_TIME"], () => setArriveTime(payload), {
+        onSuccess: (res) => console.log(res),
+        onError: (err) => console.log(err),
+    });
 };
