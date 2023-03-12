@@ -1,69 +1,55 @@
 import React from "react";
 
-import { useQuery } from "@tanstack/react-query";
-
-import { getCommuteRecordList } from "../../apis/recordList";
+import { useGetCommuteRecordList } from "../../apis/recordList";
 import { DateFormat, TimeFormat } from "../../utils/format";
 import { ArriveButton } from "./ArriveButton";
 
 export const Home = () => {
-    // const temp = async () => {
-    //     try {
-    //         const { data } = await supabase
-    //             .from("commute_time")
-    //             .select("arrive_time")
-    //             .eq(
-    //                 "todayDate",
-    //                 new Date()
-    //                     .toLocaleDateString()
-    //                     .replace(/\./g, "")
-    //                     .replace(/\s/g, "-")
-    //             );
+    const {
+        data: commuteRecordList,
+        isLoading,
+        isError,
+    } = useGetCommuteRecordList();
 
-    //         if (data) {
-    //             console.log(
-    //                 "DATA",
-    //                 new Date(data[0].arrive_time).toLocaleTimeString()
-    //             );
-    //         }
-    //     } catch (err) {
-    //         console.log("데이터가 없습니다.");
-    //     }
-    // };
-    // console.log(
-    //     new Date().toLocaleDateString().replace(/\./g, "").replace(/\s/g, "-")
-    // );
-    // temp();
-    const { data: timeList, isLoading } = useQuery({
-        queryKey: ["GET_COMMUTE_TIME_LIST"],
-        queryFn: () => getCommuteRecordList(),
-    });
     if (isLoading) {
         return <div>로딩중...</div>;
+    }
+    if (isError) {
+        return <div>에러발생</div>;
     }
     return (
         <div className="flex flex-col w-screen items-center pt-8 gap-12">
             <div className="flex flex-col w-5/6 h-1/2 border-black border-2 overflow-auto divide-y divide-slate-700">
-                {timeList?.map((v) => {
+                {commuteRecordList?.map((v: any) => {
                     return (
                         <div
                             key={v.id}
-                            className="flex flex-col divide-y divide-slate-700"
+                            className="flex flex-col divide-y divide-slate-700 flex-1"
                         >
-                            <div className="flex p-2 bg-slate-300 box-border items-center">
-                                <span>
-                                    {DateFormat(v.arrive_time)}{" "}
-                                    {TimeFormat(v.arrive_time)} IN
+                            <div className="flex p-2 bg-slate-300 box-border items-center flex-1">
+                                <span className="flex flex-1 justify-center items-center">
+                                    {DateFormat(v.arrive_time)}
+                                </span>
+                                <span className="flex flex-1 justify-center items-center font-bold">
+                                    {TimeFormat(v.arrive_time)}
+                                </span>
+                                <span className="flex flex-1 justify-center items-center text-red-600 font-bold">
+                                    IN
                                 </span>
                             </div>
-                            <div className="flex p-2 box-border items-center">
-                                {v.leave_time && (
-                                    <span>
-                                        {DateFormat(v.leave_time)}{" "}
-                                        {TimeFormat(v.leave_time)} OUT
+                            {v.leave_time && (
+                                <div className="flex p-2 box-border items-center flex-1">
+                                    <span className="flex flex-1 justify-center items-center">
+                                        {DateFormat(v.leave_time)}
                                     </span>
-                                )}
-                            </div>
+                                    <span className="flex flex-1 justify-center items-center font-bold">
+                                        {TimeFormat(v.leave_time)}
+                                    </span>
+                                    <span className="flex flex-1 justify-center items-center text-blue-600 font-bold">
+                                        OUT
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     );
                 })}
