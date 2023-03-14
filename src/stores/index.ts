@@ -4,4 +4,6 @@ export const isSuccessSetArriveTime = atom<boolean>(false);
 
 export const commuteRecordListAtom = atom([]);
 
+export const arriveTimeAtom = atom("");
+
 export const commuteButtonStateAtom = atom<"ARRIVE" | "LEAVE">("ARRIVE");

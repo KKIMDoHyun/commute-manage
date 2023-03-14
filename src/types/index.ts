@@ -5,6 +5,7 @@ export type SettingArriveTimeType = {
 
 export type SettingLeaveTimeType = {
     leave_time: Date;
+    work_time: number;
 };
 
 export type TCommuteRecordList = {

@@ -50,7 +50,7 @@ export const useSetArriveTimeMutation = (payload: SettingArriveTimeType) => {
 };
 
 export const setLeaveTime = async (payload: SettingLeaveTimeType) => {
-    const todayDate = TodayDateFormat(new Date().toLocaleDateString());
+    const todayDate = TodayDateFormat(new Date());
     const { data, error } = await supabase
         .from("commute_time")
         .update(payload)

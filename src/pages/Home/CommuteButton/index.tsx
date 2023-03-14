@@ -1,13 +1,14 @@
 import React from "react";
 
-import { useAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 
 import {
     useSetArriveTimeMutation,
     useSetLeaveTimeMutation,
 } from "../../../apis";
-import { commuteButtonStateAtom } from "../../../stores";
+import { arriveTimeAtom, commuteButtonStateAtom } from "../../../stores";
 import { SettingArriveTimeType, SettingLeaveTimeType } from "../../../types";
+import { TodayDateFormat } from "../../../utils/format";
 
 type TCommuteButton = {
     commute: "ARRIVE" | "LEAVE";
@@ -15,7 +16,8 @@ type TCommuteButton = {
 };
 
 export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
-    const [, setCommuteButtonState] = useAtom(commuteButtonStateAtom);
+    const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
+    const arriveTime = useAtomValue(arriveTimeAtom);
 
     const curr = new Date();
     const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
@@ -29,6 +31,11 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
     };
     const leaveData: SettingLeaveTimeType = {
         leave_time: new Date(utc + KR_TIME_DIFF),
+        work_time: Math.floor(
+            (new Date(TodayDateFormat(new Date(utc + KR_TIME_DIFF))).getTime() -
+                new Date(TodayDateFormat(new Date(arriveTime))).getTime()) /
+                (1000 * 60)
+        ),
     };
     const setArriveTimeMutation = useSetArriveTimeMutation(arriveData);
     const setLeaveTimeMutation = useSetLeaveTimeMutation(leaveData);
