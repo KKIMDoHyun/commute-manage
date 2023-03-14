@@ -61,9 +61,14 @@ export const setLeaveTime = async (payload: SettingLeaveTimeType) => {
     return data;
 };
 
-export const useSetLeaveTime = (payload: SettingLeaveTimeType) => {
+export const useSetLeaveTimeMutation = (payload: SettingLeaveTimeType) => {
+    const queryClient = useQueryClient();
+
     return useMutation(["SET_LEAVE_TIME"], () => setLeaveTime(payload), {
-        onSuccess: (res) => console.log("UseSetLeaveTime 성공", res),
+        onSuccess: (res) => {
+            console.log("UseSetLeaveTime 성공", res);
+            queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
+        },
         onError: (err) => console.log(err),
     });
 };

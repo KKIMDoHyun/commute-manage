@@ -2,7 +2,10 @@ import React from "react";
 
 import { useAtom } from "jotai";
 
-import { useSetArriveTimeMutation, useSetLeaveTime } from "../../../apis";
+import {
+    useSetArriveTimeMutation,
+    useSetLeaveTimeMutation,
+} from "../../../apis";
 import { commuteButtonStateAtom } from "../../../stores";
 import { SettingArriveTimeType, SettingLeaveTimeType } from "../../../types";
 
@@ -28,16 +31,7 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
         leave_time: new Date(utc + KR_TIME_DIFF),
     };
     const setArriveTimeMutation = useSetArriveTimeMutation(arriveData);
-    const setLeaveTimeMutation = useSetLeaveTime(leaveData);
-
-    // if (setArriveTimeMutation.isSuccess) {
-    //     setCommuteButtonState("LEAVE");
-    //     console.log("출근 성공");
-    // }
-    // if (setLeaveTimeMutation.isSuccess) {
-    //     setCommuteButtonState("ARRIVE");
-    //     console.log("퇴근 성공");
-    // }
+    const setLeaveTimeMutation = useSetLeaveTimeMutation(leaveData);
 
     const handleCommuteButton = () => {
         if (commute === "ARRIVE") {

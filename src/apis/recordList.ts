@@ -20,6 +20,7 @@ export const useGetCommuteRecordList = () => {
     const setCommuteRecordList = useSetAtom(commuteRecordListAtom);
     return useQuery(["GET_COMMUTE_RECORD_LIST"], () => getCommuteRecordList(), {
         onSuccess: (res: any) => {
+            console.log(res);
             setCommuteRecordList(res.reverse());
         },
         onError: (err) => {
