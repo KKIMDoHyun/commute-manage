@@ -3,12 +3,13 @@ import React from "react";
 import { useAtomValue } from "jotai";
 
 import { useGetCommuteRecordList } from "../../apis/recordList";
-import { commuteRecordListAtom } from "../../stores";
+import { commuteButtonStateAtom, commuteRecordListAtom } from "../../stores";
 import { TCommuteRecordList } from "../../types";
 import { DateFormat, TimeFormat } from "../../utils/format";
-import { ArriveButton } from "./ArriveButton";
+import { CommuteButton } from "./CommuteButton";
 
 export const Home = () => {
+    const commuteButtonState = useAtomValue(commuteButtonStateAtom);
     const commuteRecordList = useAtomValue(commuteRecordListAtom);
 
     const { isLoading, isError } = useGetCommuteRecordList();
@@ -66,9 +67,15 @@ export const Home = () => {
                     <span>@@시간</span>
                 </div>
             </div>
-            <div className="flex flex-row w-5/6 h-1/6 bg-red-800 items-center gap-8">
-                <ArriveButton />
-                <button className="bg-red-500 w-full h-2/4">퇴근하기</button>
+            <div className="flex flex-row w-5/6 h-1/6 items-center gap-8">
+                <CommuteButton
+                    commute="ARRIVE"
+                    disabled={commuteButtonState === "LEAVE"}
+                />
+                <CommuteButton
+                    commute="LEAVE"
+                    disabled={commuteButtonState === "ARRIVE"}
+                />
             </div>
         </div>
     );

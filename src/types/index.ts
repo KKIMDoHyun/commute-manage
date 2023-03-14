@@ -3,6 +3,10 @@ export type SettingArriveTimeType = {
     arrive_time: Date;
 };
 
+export type SettingLeaveTimeType = {
+    leave_time: Date;
+};
+
 export type TCommuteRecordList = {
     id: number;
     created_at: string;

@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { SettingArriveTimeType } from "../types";
+import { SettingArriveTimeType, SettingLeaveTimeType } from "../types";
+import { TodayDateFormat } from "../utils/format";
 import { supabase } from "../utils/supabase";
 
 export const getCommuteTime = async () => {
@@ -26,16 +27,43 @@ export const getArriveTime = async () => {
 };
 
 export const setArriveTime = async (payload: SettingArriveTimeType) => {
-    const { data, error } = await supabase.from("commute_time").insert(payload);
+    const { data, error } = await supabase
+        .from("commute_time")
+        .insert(payload)
+        .single();
     if (error) {
         throw new Error(error.message);
     }
     return data;
 };
 
-export const useSetArriveTime = (payload: SettingArriveTimeType) => {
+export const useSetArriveTimeMutation = (payload: SettingArriveTimeType) => {
+    const queryClient = useQueryClient();
+
     return useMutation(["SET_ARRIVE_TIME"], () => setArriveTime(payload), {
-        onSuccess: (res) => console.log(res),
+        onSuccess: (res) => {
+            console.log("UseMutation", res);
+            queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
+        },
+        onError: (err) => console.log(err),
+    });
+};
+
+export const setLeaveTime = async (payload: SettingLeaveTimeType) => {
+    const todayDate = TodayDateFormat(new Date().toLocaleDateString());
+    const { data, error } = await supabase
+        .from("commute_time")
+        .update(payload)
+        .eq("todayDate", todayDate);
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+};
+
+export const useSetLeaveTime = (payload: SettingLeaveTimeType) => {
+    return useMutation(["SET_LEAVE_TIME"], () => setLeaveTime(payload), {
+        onSuccess: (res) => console.log("UseSetLeaveTime 성공", res),
         onError: (err) => console.log(err),
     });
 };
