@@ -1,5 +1,6 @@
 import React from "react";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 
 import {
@@ -16,6 +17,7 @@ type TCommuteButton = {
 };
 
 export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
+    const queryClient = useQueryClient();
     const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
     const arriveTime = useAtomValue(arriveTimeAtom);
 
@@ -37,23 +39,32 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
                 (1000 * 60)
         ),
     };
-    const setArriveTimeMutation = useSetArriveTimeMutation(arriveData);
-    const setLeaveTimeMutation = useSetLeaveTimeMutation(leaveData);
+    const setArriveTimeMutation = useSetArriveTimeMutation(arriveData, {
+        onSuccess: () => {
+            setCommuteButtonState("LEAVE");
+            queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
+            console.log("출근성공");
+        },
+        onError: () => {
+            console.log("에러발생");
+        },
+    });
+    const setLeaveTimeMutation = useSetLeaveTimeMutation(leaveData, {
+        onSuccess: () => {
+            setCommuteButtonState("ARRIVE");
+            queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
+            console.log("퇴근성공");
+        },
+        onError: () => {
+            console.log("에러발생");
+        },
+    });
 
     const handleCommuteButton = () => {
         if (commute === "ARRIVE") {
             setArriveTimeMutation.mutate();
-            console.log(
-                setArriveTimeMutation.isSuccess,
-                setArriveTimeMutation.isError,
-                setArriveTimeMutation.isLoading
-            );
-            setCommuteButtonState("LEAVE");
-            console.log("출근 성공");
         } else {
             setLeaveTimeMutation.mutate();
-            setCommuteButtonState("ARRIVE");
-            console.log("퇴근 성공");
         }
     };
     return (

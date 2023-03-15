@@ -1,16 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { UseQueryOptions, useMutation } from "@tanstack/react-query";
 
 import { SettingArriveTimeType, SettingLeaveTimeType } from "../types";
 import { TodayDateFormat } from "../utils/format";
 import { supabase } from "../utils/supabase";
-
-export const getCommuteTime = async () => {
-    const { data: commuteList } = await supabase
-        .from("commute_time")
-        .select("*")
-        .order("created_at");
-    return commuteList;
-};
 
 export const getArriveTime = async () => {
     const { data: arriveTime } = await supabase
@@ -37,15 +29,18 @@ export const setArriveTime = async (payload: SettingArriveTimeType) => {
     return data;
 };
 
-export const useSetArriveTimeMutation = (payload: SettingArriveTimeType) => {
-    const queryClient = useQueryClient();
-
-    return useMutation(["SET_ARRIVE_TIME"], () => setArriveTime(payload), {
+export const useSetArriveTimeMutation = (
+    payload: SettingArriveTimeType,
+    options?: UseQueryOptions
+) => {
+    return useMutation(async () => setArriveTime(payload), {
+        mutationKey: ["SET_ARRIVE_TIME"],
         onSuccess: (res) => {
-            console.log("UseMutation", res);
-            queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
+            options?.onSuccess?.(res);
         },
-        onError: (err) => console.log(err),
+        onError: (err) => {
+            options?.onError?.(err);
+        },
     });
 };
 
@@ -61,14 +56,17 @@ export const setLeaveTime = async (payload: SettingLeaveTimeType) => {
     return data;
 };
 
-export const useSetLeaveTimeMutation = (payload: SettingLeaveTimeType) => {
-    const queryClient = useQueryClient();
-
-    return useMutation(["SET_LEAVE_TIME"], () => setLeaveTime(payload), {
+export const useSetLeaveTimeMutation = (
+    payload: SettingLeaveTimeType,
+    options?: UseQueryOptions
+) => {
+    return useMutation(() => setLeaveTime(payload), {
+        mutationKey: ["SET_LEAVE_TIME"],
         onSuccess: (res) => {
-            console.log("UseSetLeaveTime 성공", res);
-            queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
+            options?.onSuccess?.(res);
         },
-        onError: (err) => console.log(err),
+        onError: (err) => {
+            options?.onError?.(err);
+        },
     });
 };
