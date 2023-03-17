@@ -6,7 +6,7 @@ import { Week } from "../../pages/Week";
 
 export const AppRoutes = () => {
     return (
-        <div className="flex flex-1 h-full">
+        <div className="flex-1">
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/week" element={<Week />} />
