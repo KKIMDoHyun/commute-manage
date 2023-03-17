@@ -1,7 +1,11 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 
-import { arriveTimeAtom, commuteRecordListAtom } from "../stores";
+import {
+    arriveTimeAtom,
+    commuteButtonStateAtom,
+    commuteRecordListAtom,
+} from "../stores";
 import { TCommuteRecordList } from "../types";
 import { supabase } from "../utils/supabase";
 
@@ -22,6 +26,7 @@ export const useGetCommuteRecordList = (
 ) => {
     const setCommuteRecordList = useSetAtom(commuteRecordListAtom);
     const setArriveTime = useSetAtom(arriveTimeAtom);
+    const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
 
     return useQuery(["GET_COMMUTE_RECORD_LIST"], () => getCommuteRecordList(), {
         onSuccess: (res: any) => {
@@ -29,6 +34,11 @@ export const useGetCommuteRecordList = (
                 const commuteRecordList = res.reverse();
                 setCommuteRecordList(commuteRecordList);
                 setArriveTime(commuteRecordList[0].arrive_time);
+                if (commuteRecordList[0].leave_time === null) {
+                    setCommuteButtonState("LEAVE");
+                } else {
+                    setCommuteButtonState("ARRIVE");
+                }
             }
         },
         onError: (err) => {
