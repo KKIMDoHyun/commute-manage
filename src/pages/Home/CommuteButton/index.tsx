@@ -7,7 +7,7 @@ import {
     useSetArriveTimeMutation,
     useSetLeaveTimeMutation,
 } from "../../../apis";
-import { arriveTimeAtom, commuteButtonStateAtom } from "../../../stores";
+import { commuteButtonStateAtom, lastCommuteRecordAtom } from "../../../stores";
 import { SettingArriveTimeType, SettingLeaveTimeType } from "../../../types";
 import { TodayDateFormat } from "../../../utils/format";
 
@@ -19,7 +19,7 @@ type TCommuteButton = {
 export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
     const queryClient = useQueryClient();
     const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
-    const arriveTime = useAtomValue(arriveTimeAtom);
+    const lastCommuteRecord = useAtomValue(lastCommuteRecordAtom);
 
     const curr = new Date();
     const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
@@ -35,7 +35,9 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
         leave_time: new Date(utc + KR_TIME_DIFF),
         work_time: Math.floor(
             (new Date(TodayDateFormat(new Date(utc + KR_TIME_DIFF))).getTime() -
-                new Date(TodayDateFormat(new Date(arriveTime))).getTime()) /
+                new Date(
+                    TodayDateFormat(new Date(lastCommuteRecord.arrive_time))
+                ).getTime()) /
                 (1000 * 60)
         ),
     };
@@ -62,7 +64,15 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
 
     const handleCommuteButton = () => {
         if (commute === "ARRIVE") {
-            setArriveTimeMutation.mutate();
+            if (
+                new Date().getDate() !==
+                new Date(lastCommuteRecord?.arrive_time).getDate()
+            ) {
+                setArriveTimeMutation.mutate();
+            } else {
+                // [TODO] 모달창 구현
+                alert("이미 출근하셨습니다.");
+            }
         } else {
             setLeaveTimeMutation.mutate();
         }
