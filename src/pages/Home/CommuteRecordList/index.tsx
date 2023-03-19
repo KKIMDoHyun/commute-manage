@@ -46,7 +46,7 @@ export const CommuteRecordList = () => {
         return <div>에러발생</div>;
     }
     return (
-        <div className="flex w-5/6 h-4/6 border-black border-2 overflow-auto divide-y divide-slate-700 flex-col">
+        <div className="flex-1 overflow-auto h-full w-full divide-y divide-slate-700">
             {commuteRecordList?.map((v: TCommuteRecordList) => {
                 return (
                     <div
