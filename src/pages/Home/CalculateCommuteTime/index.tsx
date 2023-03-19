@@ -17,9 +17,21 @@ export const CalculateCommuteTime = () => {
             </div>
             <div className="flex flex-col items-center justify-center">
                 <span className="font-bold">
-                    이번 주 남은 시간: {Math.floor(remainTime / 60)}시간{" "}
-                    {Math.floor(remainTime % 60)}분
+                    이번 주 남은 시간:{" "}
+                    {remainTime > 0
+                        ? `${Math.floor(remainTime / 60)}시간 ${Math.floor(
+                              remainTime % 60
+                          )}분`
+                        : 0}
                 </span>
+                {remainTime <= 0 && (
+                    <span className="text-sm font-bold text-red-500 mt-1">
+                        {`${Math.floor(
+                            (-1 * remainTime) / 60
+                        )}시간 ${Math.floor((-1 * remainTime) % 60)}분`}
+                        이 초과되었습니다.
+                    </span>
+                )}
             </div>
         </div>
     );
