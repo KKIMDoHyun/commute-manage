@@ -1,9 +1,10 @@
+import dayjs from "dayjs";
+
 const dayFormat: string[] = ["일", "월", "화", "수", "목", "금", "토", "일"];
 
 export const DateFormat = (date: string) => {
-    const time = new Date(date);
-    return `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} (${
-        dayFormat[time.getDay()]
+    return `${dayjs(date).format("YYYY-MM-DD")} (${
+        dayFormat[dayjs(date).get("day")]
     })`;
 };
 

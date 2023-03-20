@@ -3,6 +3,7 @@ import React from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { useAtom } from "jotai";
 
+import { useGetWeekCommuteRecordList } from "../../apis/recordList";
 import { currentAtom } from "../../stores/weekRecord";
 
 export const Week = () => {
@@ -22,9 +23,22 @@ export const Week = () => {
         return date.set("date", diff);
     };
 
+    const { isLoading, isError } = useGetWeekCommuteRecordList({
+        onSuccess: (res: any) => {
+            console.log(res);
+        },
+    });
+
     React.useEffect(() => {
         setCurrent(getMonday(dayjs()));
     }, []);
+
+    if (isLoading) {
+        return <div>로딩중...</div>;
+    }
+    if (isError) {
+        return <div>에러..</div>;
+    }
     return (
         <div className="flex flex-col w-full h-full items-center p-8 gap-4">
             <div className="flex flex-[1] w-full items-center justify-center">
