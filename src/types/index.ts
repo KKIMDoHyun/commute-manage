@@ -1,10 +1,10 @@
 export type SettingArriveTimeType = {
     todayDate: string;
-    arrive_time: Date;
+    arrive_time: string;
 };
 
 export type SettingLeaveTimeType = {
-    leave_time: Date;
+    leave_time: string;
     work_time: number;
 };
 

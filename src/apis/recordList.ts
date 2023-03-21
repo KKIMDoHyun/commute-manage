@@ -1,4 +1,5 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { Dayjs } from "dayjs";
 
 import { supabase } from "../utils/supabase";
 
@@ -25,22 +26,36 @@ export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
     });
 };
 
-export const getWeekCommuteRecordList = async () => {
+export const getWeekCommuteRecordList = async (payload: Dayjs) => {
+    console.log(
+        "함수",
+        payload.format()
+        // payload.add(5, "day").format("YYYY-MM-DD")
+    );
     const { data, error } = await supabase
         .from("commute_time")
         .select("*")
-        .order("created_at", { ascending: false })
-        .rangeGte("created_at", "[2023-03-13 08:30, 2023-03-20 14:22]");
+        .gt("created_at", payload.format())
+        .lt("created_at", payload.add(5, "day").format())
+        .order("created_at", { ascending: false });
     if (error) {
         throw new Error(error.message);
     }
     return data;
 };
 
-export const useGetWeekCommuteRecordList = (options?: UseQueryOptions) => {
+export const useGetWeekCommuteRecordList = (
+    payload: Dayjs,
+    options?: UseQueryOptions
+) => {
+    console.log(
+        "USE",
+        payload.format("YYYY-MM-DD"),
+        payload.add(5, "day").format("YYYY-MM-DD")
+    );
     return useQuery(
-        ["GET_WEEK_COMMUTE_RECORD_LIST"],
-        () => getWeekCommuteRecordList(),
+        ["GET_WEEK_COMMUTE_RECORD_LIST", payload],
+        () => getWeekCommuteRecordList(payload),
         {
             onSuccess: (res) => {
                 options?.onSuccess?.(res);
@@ -48,6 +63,7 @@ export const useGetWeekCommuteRecordList = (options?: UseQueryOptions) => {
             onError: (err) => {
                 options?.onError?.(err);
             },
+            enabled: !!options?.enabled,
         }
     );
 };

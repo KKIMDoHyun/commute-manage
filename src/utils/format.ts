@@ -8,11 +8,6 @@ export const DateFormat = (date: string) => {
     })`;
 };
 
-export const TodayDateFormat = (date: Date) => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-};
-
 export const TimeFormat = (date: string) => {
-    const time = new Date(date);
-    return `${time.getHours()}:${time.getMinutes()}`;
+    return dayjs(date).format("HH:mm");
 };

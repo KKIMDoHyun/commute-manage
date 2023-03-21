@@ -1,5 +1,6 @@
 import React from "react";
 
+import dayjs from "dayjs";
 import { useAtom, useSetAtom } from "jotai";
 
 import { useGetCommuteRecordList } from "../../../apis/recordList";
@@ -31,7 +32,7 @@ export const CommuteRecordList = () => {
                     setCommuteButtonState("ARRIVE");
                 }
                 const workTime = res
-                    .slice(0, new Date(res[0].todayDate).getDay())
+                    .slice(0, dayjs(res[0].todayDate).get("day"))
                     .map((v: TCommuteRecordList) => v.work_time)
                     .reduce((a: number, b: number) => a + b);
                 setWeekWorkTime(workTime);
@@ -67,7 +68,7 @@ export const CommuteRecordList = () => {
                             </div>
                         )}
                         <div className="flex p-2 box-border items-center font-bold bg-slate-300 h-10">
-                            <span className="flex flex-[1.5] items-center justify-center  text-sm">
+                            <span className="flex flex-[1.5] items-center justify-center text-sm">
                                 {DateFormat(v.arrive_time)}
                             </span>
                             <span className="flex flex-1 justify-center items-center text-red-600">

@@ -1,37 +1,46 @@
 import React from "react";
 
 import dayjs, { Dayjs } from "dayjs";
-import { useAtom } from "jotai";
 
 import { useGetWeekCommuteRecordList } from "../../apis/recordList";
-import { currentAtom } from "../../stores/weekRecord";
+
+// 몇번째 주인지 구하기
+const getWeek = (date: Dayjs) => {
+    const currentDate = date.get("date");
+    const firstDay = date.set("date", 1).get("day");
+
+    return Math.ceil((currentDate + firstDay) / 7);
+};
+
+// 그 주의 월요일 구하기
+const getMonday = (date: Dayjs) => {
+    const day = date.get("day");
+    const diff = date.get("date") - day + (day == 0 ? -6 : 1);
+    return date.set("date", diff);
+};
 
 export const Week = () => {
-    const [current, setCurrent] = useAtom(currentAtom);
-    // 몇번째 주인지 구하기
-    const getWeek = (date: Dayjs) => {
-        const currentDate = date.get("date");
-        const firstDay = date.set("date", 1).get("day");
-
-        return Math.ceil((currentDate + firstDay) / 7);
-    };
-
-    // 그 주의 월요일 구하기
-    const getMonday = (date: Dayjs) => {
-        const day = date.get("day");
-        const diff = date.get("date") - day + (day == 0 ? -6 : 1);
-        return date.set("date", diff);
-    };
-
-    const { isLoading, isError } = useGetWeekCommuteRecordList({
-        onSuccess: (res: any) => {
-            console.log(res);
-        },
-    });
+    const [mondayDate, setMondayDate] = React.useState<Dayjs>(
+        getMonday(dayjs())
+    );
+    const { isLoading, isError, refetch } = useGetWeekCommuteRecordList(
+        mondayDate,
+        {
+            onSuccess: (res: any) => {
+                console.log(res);
+            },
+            onError: (err) => {
+                console.log(err);
+            },
+            enabled: false,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        }
+    );
 
     React.useEffect(() => {
-        setCurrent(getMonday(dayjs()));
-    }, []);
+        refetch();
+    }, [mondayDate]);
 
     if (isLoading) {
         return <div>로딩중...</div>;
@@ -47,27 +56,28 @@ export const Week = () => {
             <div className="flex flex-[1] flex-col w-full bg-slate-400 justify-center items-center">
                 <div className="flex gap-5">
                     <button
+                        className="flex"
                         onClick={() => {
-                            setCurrent(current.add(-1, "week"));
-                            console.log(current.format("YYYY-MM-DD"));
+                            setMondayDate(mondayDate.add(-1, "week"));
+                            refetch();
                         }}
                     >
                         <span>{"<"}</span>
                     </button>
-                    <span>{`${current.get("month") + 1}월 ${getWeek(
-                        current
+                    <span>{`${mondayDate.get("month") + 1}월 ${getWeek(
+                        mondayDate
                     )}째주`}</span>
                     <button
                         onClick={() => {
-                            setCurrent(current.add(1, "week"));
-                            console.log(current.format("YYYY-MM-DD"));
+                            setMondayDate(mondayDate.add(1, "week"));
+                            refetch();
                         }}
                     >
                         <span>{">"}</span>
                     </button>
                 </div>
                 <div>
-                    <span>{`${current.format("YYYY-MM-DD")}~${current
+                    <span>{`${mondayDate.format("YYYY-MM-DD")} ~ ${mondayDate
                         .add(5, "day")
                         .format("YYYY-MM-DD")}`}</span>
                 </div>

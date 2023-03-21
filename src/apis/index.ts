@@ -1,20 +1,14 @@
 import { UseQueryOptions, useMutation } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
 import { SettingArriveTimeType, SettingLeaveTimeType } from "../types";
-import { TodayDateFormat } from "../utils/format";
 import { supabase } from "../utils/supabase";
 
 export const getArriveTime = async () => {
     const { data: arriveTime } = await supabase
         .from("commute_time")
         .select("arrive_item")
-        .eq(
-            "todayDate",
-            new Date()
-                .toLocaleDateString()
-                .replace(/\./g, "")
-                .replace(/\s/g, "-")
-        );
+        .eq("todayDate", dayjs().format("YYYY-MM-DD"));
     return arriveTime;
 };
 
@@ -45,11 +39,10 @@ export const useSetArriveTimeMutation = (
 };
 
 export const setLeaveTime = async (payload: SettingLeaveTimeType) => {
-    const todayDate = TodayDateFormat(new Date());
     const { data, error } = await supabase
         .from("commute_time")
         .update(payload)
-        .eq("todayDate", todayDate);
+        .eq("todayDate", dayjs().format("YYYY-MM-DD"));
     if (error) {
         throw new Error(error.message);
     }
