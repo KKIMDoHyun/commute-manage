@@ -60,7 +60,6 @@ export const useSetLeaveTimeMutation = (
     payload: SettingLeaveTimeType,
     options?: UseQueryOptions
 ) => {
-    console.log(payload);
     return useMutation(() => setLeaveTime(payload), {
         mutationKey: ["SET_LEAVE_TIME"],
         onSuccess: (res) => {

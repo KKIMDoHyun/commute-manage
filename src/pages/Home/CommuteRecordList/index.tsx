@@ -55,7 +55,7 @@ export const CommuteRecordList = () => {
                     >
                         {v.leave_time && (
                             <div className="flex p-2 box-border items-center font-bold h-10">
-                                <span className="flex flex-1 justify-center items-center text-sm">
+                                <span className="flex flex-[1.5] items-center justify-center text-sm">
                                     {DateFormat(v.leave_time)}
                                 </span>
                                 <span className="flex flex-1 justify-center items-center text-blue-600">
@@ -67,7 +67,7 @@ export const CommuteRecordList = () => {
                             </div>
                         )}
                         <div className="flex p-2 box-border items-center font-bold bg-slate-300 h-10">
-                            <span className="flex flex-1 justify-center items-center text-sm">
+                            <span className="flex flex-[1.5] items-center justify-center  text-sm">
                                 {DateFormat(v.arrive_time)}
                             </span>
                             <span className="flex flex-1 justify-center items-center text-red-600">
