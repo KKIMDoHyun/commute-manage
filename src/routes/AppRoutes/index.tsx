@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { Home } from "../../pages/Home";
-import { Week } from "../../pages/Week";
+import { Home } from "@/pages/Home";
+import { Week } from "@/pages/Week";
 
 export const AppRoutes = () => {
     return (

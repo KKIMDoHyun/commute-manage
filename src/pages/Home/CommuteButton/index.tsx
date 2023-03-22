@@ -4,12 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtomValue, useSetAtom } from "jotai";
 
-import {
-    useSetArriveTimeMutation,
-    useSetLeaveTimeMutation,
-} from "../../../apis";
-import { commuteButtonStateAtom, lastCommuteRecordAtom } from "../../../stores";
-import { SettingArriveTimeType, SettingLeaveTimeType } from "../../../types";
+import { useSetArriveTimeMutation, useSetLeaveTimeMutation } from "@/apis";
+import { commuteButtonStateAtom, lastCommuteRecordAtom } from "@/stores";
+import { SettingArriveTimeType, SettingLeaveTimeType } from "@/types";
 
 type TCommuteButton = {
     commute: "ARRIVE" | "LEAVE";

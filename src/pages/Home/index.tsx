@@ -2,10 +2,10 @@ import React from "react";
 
 import { useAtomValue } from "jotai";
 
-import { commuteButtonStateAtom } from "../../stores";
-import { CalculateCommuteTime } from "./CalculateCommuteTime";
-import { CommuteButton } from "./CommuteButton";
-import { CommuteRecordList } from "./CommuteRecordList";
+import { CalculateCommuteTime } from "@/pages/Home/CalculateCommuteTime";
+import { CommuteButton } from "@/pages/Home/CommuteButton";
+import { CommuteRecordList } from "@/pages/Home/CommuteRecordList";
+import { commuteButtonStateAtom } from "@/stores";
 
 export const Home = () => {
     const commuteButtonState = useAtomValue(commuteButtonStateAtom);

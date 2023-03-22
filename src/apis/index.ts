@@ -1,8 +1,8 @@
 import { UseQueryOptions, useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
-import { SettingArriveTimeType, SettingLeaveTimeType } from "../types";
-import { supabase } from "../utils/supabase";
+import { SettingArriveTimeType, SettingLeaveTimeType } from "@/types";
+import { supabase } from "@/utils/supabase";
 
 export const getArriveTime = async () => {
     const { data: arriveTime } = await supabase

@@ -1,7 +1,7 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 
-import { supabase } from "../utils/supabase";
+import { supabase } from "@/utils/supabase";
 
 export const getCommuteRecordList = async () => {
     const { data, error } = await supabase

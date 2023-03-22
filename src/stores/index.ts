@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-import { TCommuteRecordList } from "../types";
+import { TCommuteRecordList } from "@/types";
 
 export const isSuccessSetArriveTime = atom<boolean>(false);
 

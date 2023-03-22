@@ -3,15 +3,15 @@ import React from "react";
 import dayjs from "dayjs";
 import { useAtom, useSetAtom } from "jotai";
 
-import { useGetCommuteRecordList } from "../../../apis/recordList";
+import { useGetCommuteRecordList } from "@/apis/recordList";
 import {
     commuteButtonStateAtom,
     commuteRecordListAtom,
     lastCommuteRecordAtom,
     weekWorkTimeAtom,
-} from "../../../stores";
-import { TCommuteRecordList } from "../../../types";
-import { DateFormat, TimeFormat } from "../../../utils/format";
+} from "@/stores";
+import { TCommuteRecordList } from "@/types";
+import { DateFormat, TimeFormat } from "@/utils/format";
 
 export const CommuteRecordList = () => {
     const [commuteRecordList, setCommuteRecordList] = useAtom(

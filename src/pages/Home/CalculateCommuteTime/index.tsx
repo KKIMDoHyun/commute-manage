@@ -2,7 +2,7 @@ import React from "react";
 
 import { useAtomValue } from "jotai";
 
-import { weekWorkTimeAtom } from "../../../stores";
+import { weekWorkTimeAtom } from "@/stores";
 
 export const CalculateCommuteTime = () => {
     const weekWorkTime = useAtomValue(weekWorkTimeAtom);

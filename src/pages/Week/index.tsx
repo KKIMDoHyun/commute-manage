@@ -2,7 +2,7 @@ import React from "react";
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { Record } from "./Record";
+import { Record } from "@/pages/Week/Record";
 
 // 몇번째 주인지 구하기
 const getWeek = (date: Dayjs) => {
