@@ -37,7 +37,7 @@ export const getWeekCommuteRecordList = async (payload: Dayjs) => {
         .select("*")
         .gt("created_at", payload.format())
         .lt("created_at", payload.add(5, "day").format())
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: true });
     if (error) {
         throw new Error(error.message);
     }

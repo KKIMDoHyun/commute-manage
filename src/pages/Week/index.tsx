@@ -2,7 +2,7 @@ import React from "react";
 
 import dayjs, { Dayjs } from "dayjs";
 
-import { useGetWeekCommuteRecordList } from "../../apis/recordList";
+import { Record } from "./Record";
 
 // 몇번째 주인지 구하기
 const getWeek = (date: Dayjs) => {
@@ -23,31 +23,7 @@ export const Week = () => {
     const [mondayDate, setMondayDate] = React.useState<Dayjs>(
         getMonday(dayjs())
     );
-    const { isLoading, isError, refetch } = useGetWeekCommuteRecordList(
-        mondayDate,
-        {
-            onSuccess: (res: any) => {
-                console.log(res);
-            },
-            onError: (err) => {
-                console.log(err);
-            },
-            enabled: false,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        }
-    );
 
-    React.useEffect(() => {
-        refetch();
-    }, [mondayDate]);
-
-    if (isLoading) {
-        return <div>로딩중...</div>;
-    }
-    if (isError) {
-        return <div>에러..</div>;
-    }
     return (
         <div className="flex flex-col w-full h-full items-center p-8 gap-4">
             <div className="flex flex-[1] w-full items-center justify-center">
@@ -59,7 +35,6 @@ export const Week = () => {
                         className="flex"
                         onClick={() => {
                             setMondayDate(mondayDate.add(-1, "week"));
-                            refetch();
                         }}
                     >
                         <span>{"<"}</span>
@@ -70,7 +45,6 @@ export const Week = () => {
                     <button
                         onClick={() => {
                             setMondayDate(mondayDate.add(1, "week"));
-                            refetch();
                         }}
                     >
                         <span>{">"}</span>
@@ -82,9 +56,7 @@ export const Week = () => {
                         .format("YYYY-MM-DD")}`}</span>
                 </div>
             </div>
-            <div className="flex flex-[8] w-full items-center justify-center bg-slate-500">
-                기록 표시
-            </div>
+            <Record mondayDate={mondayDate} />
         </div>
     );
 };
