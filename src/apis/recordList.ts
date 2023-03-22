@@ -29,14 +29,14 @@ export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
 export const getWeekCommuteRecordList = async (payload: Dayjs) => {
     console.log(
         "함수",
-        payload.format()
-        // payload.add(5, "day").format("YYYY-MM-DD")
+        payload.format(),
+        payload.add(4, "day").endOf("d").format()
     );
     const { data, error } = await supabase
         .from("commute_time")
         .select("*")
-        .gt("created_at", payload.format())
-        .lt("created_at", payload.add(5, "day").format())
+        .gte("created_at", payload.startOf("d").format())
+        .lte("created_at", payload.add(4, "day").endOf("d").format())
         .order("created_at", { ascending: true });
     if (error) {
         throw new Error(error.message);
