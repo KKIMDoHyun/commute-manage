@@ -38,16 +38,28 @@ export const CommuteRecordList = () => {
                 setWeekWorkTime(workTime);
             }
         },
+        enabled: true,
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     if (isLoading) {
-        return <div>로딩중...</div>;
+        return (
+            <div className="flex flex-[2] w-5/6 justify-center items-center border-2 border-black">
+                로딩중...
+            </div>
+        );
     }
     if (isError) {
-        return <div>에러발생</div>;
+        return (
+            <div className="flex flex-[2] w-5/6 justify-center items-center border-2 border-black">
+                에러발생
+            </div>
+        );
     }
+
     return (
-        <div className="flex-1 overflow-auto h-full w-full divide-y divide-slate-700">
+        <div className="flex-[2] overflow-auto h-full w-5/6 justify-center items-center border-2 border-black divide-y divide-slate-700">
             {commuteRecordList?.map((v: TCommuteRecordList) => {
                 return (
                     <div

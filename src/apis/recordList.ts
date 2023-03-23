@@ -16,6 +16,7 @@ export const getCommuteRecordList = async () => {
 };
 
 export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
+    console.log("DD");
     return useQuery(["GET_COMMUTE_RECORD_LIST"], () => getCommuteRecordList(), {
         onSuccess: (res) => {
             options?.onSuccess?.(res);
@@ -23,6 +24,7 @@ export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
         onError: (err) => {
             options?.onError?.(err);
         },
+        enabled: !!options?.enabled,
     });
 };
 

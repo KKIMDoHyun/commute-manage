@@ -4,7 +4,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtomValue, useSetAtom } from "jotai";
 
-import { useSetArriveTimeMutation, useSetLeaveTimeMutation } from "@/apis";
+import {
+    useSetArriveTimeMutation,
+    useSetLeaveTimeMutation,
+} from "@/apis/commute";
 import { commuteButtonStateAtom, lastCommuteRecordAtom } from "@/stores";
 import { SettingArriveTimeType, SettingLeaveTimeType } from "@/types";
 
@@ -30,7 +33,6 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
         onSuccess: () => {
             setCommuteButtonState("LEAVE");
             queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
-            console.log("출근성공");
         },
         onError: () => {
             console.log("에러발생");
@@ -67,16 +69,27 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
         } else {
             const leaveData: SettingLeaveTimeType = {
                 leave_time: dayjs().format(),
-                work_time: Math.floor(
-                    dayjs()
-                        .startOf("minute")
-                        .diff(
-                            dayjs(lastCommuteRecord.arrive_time).startOf(
-                                "minute"
-                            ),
-                            "minute"
-                        )
-                ),
+                work_time: lastCommuteRecord.AM
+                    ? Math.floor(
+                          dayjs()
+                              .startOf("minute")
+                              .diff(
+                                  dayjs(lastCommuteRecord.arrive_time).startOf(
+                                      "minute"
+                                  ),
+                                  "minute"
+                              )
+                      ) + 240
+                    : Math.floor(
+                          dayjs()
+                              .startOf("minute")
+                              .diff(
+                                  dayjs(lastCommuteRecord.arrive_time).startOf(
+                                      "minute"
+                                  ),
+                                  "minute"
+                              )
+                      ),
             };
             setLeave(leaveData);
             setLeaveTimeMutation.mutate();
@@ -86,8 +99,8 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
         <button
             className={`${
                 disabled
-                    ? "border-2 border-zinc-400 bg-slate-50 w-full h-2/4"
-                    : "border-2 border-zinc-400 bg-slate-300  w-full h-2/4"
+                    ? "border-2 border-zinc-400 bg-slate-50 w-full h-full"
+                    : "border-2 border-zinc-400 bg-slate-300  w-full h-full"
             }`}
             disabled={disabled}
             onClick={handleCommuteButton}

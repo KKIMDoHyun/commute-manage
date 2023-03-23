@@ -13,6 +13,7 @@ export const lastCommuteRecordAtom = atom<TCommuteRecordList>({
     arrive_time: "",
     leave_time: "",
     work_time: "",
+    AM: false,
 });
 
 export const commuteButtonStateAtom = atom<"ARRIVE" | "LEAVE">("ARRIVE");
