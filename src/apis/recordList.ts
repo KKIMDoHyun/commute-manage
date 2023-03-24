@@ -16,7 +16,6 @@ export const getCommuteRecordList = async () => {
 };
 
 export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
-    console.log("DD");
     return useQuery(["GET_COMMUTE_RECORD_LIST"], () => getCommuteRecordList(), {
         onSuccess: (res) => {
             options?.onSuccess?.(res);
@@ -29,11 +28,6 @@ export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
 };
 
 export const getWeekCommuteRecordList = async (payload: Dayjs) => {
-    console.log(
-        "함수",
-        payload.format(),
-        payload.add(4, "day").endOf("d").format()
-    );
     const { data, error } = await supabase
         .from("commute_time")
         .select("*")
@@ -50,11 +44,6 @@ export const useGetWeekCommuteRecordList = (
     payload: Dayjs,
     options?: UseQueryOptions
 ) => {
-    console.log(
-        "USE",
-        payload.format("YYYY-MM-DD"),
-        payload.add(5, "day").format("YYYY-MM-DD")
-    );
     return useQuery(
         ["GET_WEEK_COMMUTE_RECORD_LIST", payload],
         () => getWeekCommuteRecordList(payload),
