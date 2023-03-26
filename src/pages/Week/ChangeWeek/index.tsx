@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useAtom } from "jotai";
 
 import { ArrowBeforeIcon, ArrowNextIcon } from "@/assets/Icons";
-import { getMonday, getWeek, mondayDateAtom } from "@/stores/weekRecord";
+import { getMonday, getWeek, mondayDateAtom } from "@/stores/week-record";
 
 export const ChangeWeek = () => {
     const [mondayDate, setMondayDate] = useAtom(mondayDateAtom);

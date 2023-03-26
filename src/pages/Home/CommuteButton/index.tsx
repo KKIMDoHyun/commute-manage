@@ -8,7 +8,10 @@ import {
     useSetArriveTimeMutation,
     useSetLeaveTimeMutation,
 } from "@/apis/commute";
-import { commuteButtonStateAtom, lastCommuteRecordAtom } from "@/stores";
+import {
+    commuteButtonStateAtom,
+    lastCommuteRecordAtom,
+} from "@/stores/commute";
 import { SettingArriveTimeType, SettingLeaveTimeType } from "@/types";
 
 type TCommuteButton = {

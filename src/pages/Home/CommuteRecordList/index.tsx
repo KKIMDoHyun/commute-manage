@@ -9,7 +9,7 @@ import {
     commuteRecordListAtom,
     lastCommuteRecordAtom,
     weekWorkTimeAtom,
-} from "@/stores";
+} from "@/stores/commute";
 import { TCommuteRecordList } from "@/types";
 import { DateFormat, TimeFormat } from "@/utils/format";
 

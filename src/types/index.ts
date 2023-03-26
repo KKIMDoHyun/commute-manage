@@ -30,3 +30,8 @@ export type SettingAmHolidayType = {
     arrive_time: string;
     AM: boolean;
 };
+
+export type SignUpType = {
+    email: string;
+    password: string;
+};

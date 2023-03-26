@@ -6,7 +6,7 @@ import { CalculateCommuteTime } from "@/pages/Home/CalculateCommuteTime";
 import { CommuteButton } from "@/pages/Home/CommuteButton";
 import { CommuteRecordList } from "@/pages/Home/CommuteRecordList";
 import { RestButton } from "@/pages/Home/RestButton";
-import { commuteButtonStateAtom } from "@/stores";
+import { commuteButtonStateAtom } from "@/stores/commute";
 
 export const Home = () => {
     const commuteButtonState = useAtomValue(commuteButtonStateAtom);

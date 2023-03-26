@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
 
 import { useGetWeekCommuteRecordList } from "@/apis/recordList";
-import { mondayDateAtom } from "@/stores/weekRecord";
+import { mondayDateAtom } from "@/stores/week-record";
 import { dayFormat } from "@/utils/format";
 
 export const Record = () => {
