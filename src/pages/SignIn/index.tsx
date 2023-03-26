@@ -1,11 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import { TmaxLogo } from "@/components/TmaxLogo";
 
 export const SignIn = () => {
+    const navigate = useNavigate();
     return (
         <div className="flex flex-1 flex-col w-full h-full items-center justify-center gap-10">
-            <div className="flex">
-                <img src="/public/Tmax.png" />
-            </div>
+            <TmaxLogo />
             <div className="flex flex-col w-96 h-80 p-4 gap-3">
                 <div className="flex flex-[3] flex-col w-full gap-3">
                     <input className="flex w-full h-1/4 border-2 border-black rounded-xl" />
@@ -20,7 +22,14 @@ export const SignIn = () => {
                         <span className="text-lg">ID 저장</span>
                     </label>
                     <span className="text-lg">|</span>
-                    <span className="text-lg">회원가입</span>
+                    <span
+                        className="text-lg"
+                        onClick={() => {
+                            navigate("/sign-up");
+                        }}
+                    >
+                        회원가입
+                    </span>
                 </div>
             </div>
         </div>
