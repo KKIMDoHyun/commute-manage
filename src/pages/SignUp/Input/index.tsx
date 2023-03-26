@@ -22,7 +22,7 @@ export const Input = ({ label }: TInput) => {
     };
 
     return (
-        <div className="flex flex-col w-full flex-1 justify-center gap-1">
+        <div className="flex flex-col flex-1 w-full">
             <label htmlFor={label}>
                 {label === "email" && "이메일"}
                 {label === "password" && "비밀번호"}
@@ -30,7 +30,7 @@ export const Input = ({ label }: TInput) => {
             </label>
             <input
                 id={label}
-                className="flex w-full border-2 border-neutral-400 rounded-xl p-3"
+                className="flex w-full border-2 h-11 border-neutral-400 rounded-xl p-3"
                 placeholder={
                     label === "email"
                         ? "이메일을 입력하세요."
