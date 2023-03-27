@@ -31,7 +31,7 @@ export type SettingAmHolidayType = {
     AM: boolean;
 };
 
-export type SignUpType = {
+export type AuthType = {
     email: string;
     password: string;
 };

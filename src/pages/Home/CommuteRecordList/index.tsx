@@ -34,7 +34,7 @@ export const CommuteRecordList = () => {
                 const workTime = res
                     .slice(0, dayjs(res[0].todayDate).get("day"))
                     .map((v: TCommuteRecordList) => v.work_time)
-                    .reduce((a: number, b: number) => a + b);
+                    .reduce((a: number, b: number) => a + b, 0);
                 setWeekWorkTime(workTime);
             }
         },

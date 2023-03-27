@@ -11,7 +11,7 @@ import {
     passwordAtom,
     rePasswordAtom,
 } from "@/stores/sign-up";
-import { SignUpType } from "@/types";
+import { AuthType } from "@/types";
 import { EmailRegex } from "@/utils/regex";
 import { supabase } from "@/utils/supabase";
 
@@ -22,7 +22,7 @@ export const SignUp = () => {
     const rePassword = useAtomValue(rePasswordAtom);
     const [errorMessage, setErrorMessage] = useAtom(errorMessageAtom);
 
-    const signUp = async (payload: SignUpType) => {
+    const signUp = async (payload: AuthType) => {
         try {
             const { error, data } = await supabase.auth.signUp(payload);
             if (error) {
@@ -56,6 +56,7 @@ export const SignUp = () => {
                 email: email,
                 password: password,
             };
+            console.log(payload);
             signUp(payload);
         }
     };
