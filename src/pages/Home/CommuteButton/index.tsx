@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtomValue, useSetAtom } from "jotai";
 
-import {
-    useSetArriveTimeMutation,
-    useSetLeaveTimeMutation,
-} from "@/apis/commute";
+import { useSetArriveMutation, useSetLeaveMutation } from "@/apis/Commute";
 import {
     commuteButtonStateAtom,
     lastCommuteRecordAtom,
 } from "@/stores/commute";
-import { SettingArriveTimeType, SettingLeaveTimeType } from "@/types";
 
 type TCommuteButton = {
     commute: "ARRIVE" | "LEAVE";
@@ -23,16 +19,8 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
     const queryClient = useQueryClient();
     const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
     const lastCommuteRecord = useAtomValue(lastCommuteRecordAtom);
-    const [arrive, setArrive] = useState<SettingArriveTimeType>({
-        todayDate: "",
-        arrive_time: "",
-    });
-    const [leave, setLeave] = useState<SettingLeaveTimeType>({
-        leave_time: "",
-        work_time: 0,
-    });
 
-    const setArriveTimeMutation = useSetArriveTimeMutation(arrive, {
+    const setArriveTimeMutation = useSetArriveMutation({
         onSuccess: () => {
             setCommuteButtonState("LEAVE");
             queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
@@ -42,7 +30,7 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
         },
     });
 
-    const setLeaveTimeMutation = useSetLeaveTimeMutation(leave, {
+    const setLeaveTimeMutation = useSetLeaveMutation({
         onSuccess: () => {
             setCommuteButtonState("ARRIVE");
             queryClient.invalidateQueries(["GET_COMMUTE_RECORD_LIST"]);
@@ -59,42 +47,12 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
                 dayjs().get("date") !==
                 dayjs(lastCommuteRecord?.arrive_time).get("date")
             ) {
-                const arriveData: SettingArriveTimeType = {
-                    todayDate: dayjs().format("YYYY-MM-DD"),
-                    arrive_time: dayjs().format(),
-                };
-                setArrive(arriveData);
                 setArriveTimeMutation.mutate();
             } else {
                 // [TODO] 모달창 구현
                 alert("이미 출근하셨습니다.");
             }
         } else {
-            const leaveData: SettingLeaveTimeType = {
-                leave_time: dayjs().format(),
-                work_time: lastCommuteRecord.AM
-                    ? Math.floor(
-                          dayjs()
-                              .startOf("minute")
-                              .diff(
-                                  dayjs(lastCommuteRecord.arrive_time).startOf(
-                                      "minute"
-                                  ),
-                                  "minute"
-                              )
-                      ) + 240
-                    : Math.floor(
-                          dayjs()
-                              .startOf("minute")
-                              .diff(
-                                  dayjs(lastCommuteRecord.arrive_time).startOf(
-                                      "minute"
-                                  ),
-                                  "minute"
-                              )
-                      ),
-            };
-            setLeave(leaveData);
             setLeaveTimeMutation.mutate();
         }
     };

@@ -3,7 +3,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { useAtom, useSetAtom } from "jotai";
 
-import { useGetCommuteRecordList } from "@/apis/recordList";
+import { useGetCommuteRecordList } from "@/apis/Record";
 import {
     commuteButtonStateAtom,
     commuteRecordListAtom,

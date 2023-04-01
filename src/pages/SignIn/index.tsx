@@ -3,37 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 import { TmaxLogo } from "@/components/TmaxLogo";
 import { AuthType } from "@/types";
-import { supabase } from "@/utils/supabase";
 
 export const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [errMessage, setErrorMessage] = React.useState("");
+    const [errMessage] = React.useState("");
 
     const handleSignIn = async (payload: AuthType) => {
-        try {
-            const { error, data } = await supabase.auth.signInWithPassword(
-                payload
-            );
-            if (error) {
-                if (
-                    error.message === "AuthApiError: Invalid login credentials"
-                ) {
-                    setErrorMessage(
-                        "아이디 또는 비밀번호가 일치하지 않습니다."
-                    );
-                } else {
-                    setErrorMessage("인증되지 않은 이메일입니다.");
-                }
-            } else {
-                console.log("성공");
-                console.log(data);
-                // navigate("/");
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        //
+        console.log(payload);
     };
 
     return (

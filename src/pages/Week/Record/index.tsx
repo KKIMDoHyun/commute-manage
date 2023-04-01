@@ -3,23 +3,21 @@ import React from "react";
 import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
 
-import { useGetWeekCommuteRecordList } from "@/apis/recordList";
+import { useGetWeekCommuteRecordList } from "@/apis/Record";
 import { mondayDateAtom } from "@/stores/week-record";
 import { dayFormat } from "@/utils/format";
 
 export const Record = () => {
     const mondayDate = useAtomValue(mondayDateAtom);
 
-    const {
-        isLoading,
-        isError,
-        refetch,
-        data: commuteRecord,
-    } = useGetWeekCommuteRecordList(mondayDate, {
-        enabled: false,
-        staleTime: Infinity,
-        cacheTime: Infinity,
-    });
+    const { isLoading, isError, refetch } = useGetWeekCommuteRecordList(
+        mondayDate,
+        {
+            enabled: false,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        }
+    );
 
     React.useEffect(() => {
         refetch();
@@ -40,10 +38,8 @@ export const Record = () => {
         );
     }
 
-    const totalWorkTime =
-        commuteRecord.length > 0 &&
-        commuteRecord.map((v) => v.work_time).reduce((a, b) => a + b);
-    const filteredRecord = commuteRecord.filter((v) => v.leave_time !== null);
+    const totalWorkTime = 0;
+    const filteredRecord: any[] = [];
 
     return (
         <div className="flex flex-[8] flex-col w-full h-full items-center border-2 border-black">

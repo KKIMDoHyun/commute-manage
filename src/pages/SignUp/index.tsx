@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 import { useAtom, useAtomValue } from "jotai";
 
@@ -13,28 +12,15 @@ import {
 } from "@/stores/sign-up";
 import { AuthType } from "@/types";
 import { EmailRegex } from "@/utils/regex";
-import { supabase } from "@/utils/supabase";
 
 export const SignUp = () => {
-    const navigate = useNavigate();
     const email = useAtomValue(emailAtom);
     const password = useAtomValue(passwordAtom);
     const rePassword = useAtomValue(rePasswordAtom);
     const [errorMessage, setErrorMessage] = useAtom(errorMessageAtom);
 
     const signUp = async (payload: AuthType) => {
-        try {
-            const { error, data } = await supabase.auth.signUp(payload);
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("성공");
-                console.log(data);
-                navigate("/sign-in");
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        console.log(payload);
     };
 
     const handleSignUp = () => {
