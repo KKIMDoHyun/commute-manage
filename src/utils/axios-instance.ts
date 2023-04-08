@@ -1,7 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 const instance: AxiosRequestConfig = {
-    baseURL: "http://localhost:8080/",
+    // baseURL: "http://localhost:3000/",
+    baseURL: "/api",
     headers: {
         "Content-Type": "application/json",
     },
