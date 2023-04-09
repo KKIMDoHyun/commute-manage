@@ -1,12 +1,13 @@
 import { UseQueryOptions, useMutation } from "@tanstack/react-query";
 
 import { COMMUTE_KEY } from "@/apis/Commute/keys";
+import { apiClient } from "@/utils/api-client";
 
 /*
  * 출근하기 버튼 클릭 시
  */
 export const setArrive = async () => {
-    //
+    return await apiClient.patch("/api/commute-records/arrive");
 };
 
 export const useSetArriveMutation = (options?: UseQueryOptions) => {
@@ -25,7 +26,7 @@ export const useSetArriveMutation = (options?: UseQueryOptions) => {
  * 퇴근하기 버튼 클릭 시
  */
 export const setLeave = async () => {
-    //
+    return await apiClient.patch("/api/commute-records/leave");
 };
 
 export const useSetLeaveMutation = (options?: UseQueryOptions) => {
@@ -44,7 +45,7 @@ export const useSetLeaveMutation = (options?: UseQueryOptions) => {
  * 오전 반차 버튼 클릭 시
  */
 export const setAmHoliday = async () => {
-    //
+    return await apiClient.patch("/api/commute-records/arrive/am");
 };
 
 export const useSetAmHolidayMutation = (options?: UseQueryOptions) => {
@@ -63,7 +64,7 @@ export const useSetAmHolidayMutation = (options?: UseQueryOptions) => {
  * 오후 반차 버튼 클릭 시
  */
 export const setPmHoliday = async () => {
-    //
+    return await apiClient.patch("/api/commute-records/leave/pm");
 };
 
 export const useSetPmHolidayMutation = (options?: UseQueryOptions) => {
@@ -82,7 +83,7 @@ export const useSetPmHolidayMutation = (options?: UseQueryOptions) => {
  * 연차/공휴일 버튼 클릭 시
  */
 export const setAnnualHoliday = async () => {
-    //
+    return await apiClient.patch("/api/commute-records/annual");
 };
 
 export const useSetAnnualHolidayMutation = (options?: UseQueryOptions) => {

@@ -8,7 +8,7 @@ import { apiClient } from "@/utils/api-client";
  * 회원가입
  */
 export const signUp = async (payload: signUpInputDto) => {
-    return await apiClient.post("", payload);
+    return await apiClient.post("/api/auth/sign-up", payload);
 };
 
 export const useSignUp = (
@@ -30,7 +30,7 @@ export const useSignUp = (
  * 로그인
  */
 export const signIn = async (payload: signInInputDto) => {
-    return await apiClient.post("", payload);
+    return await apiClient.post("/api/auth/sign-in", payload);
 };
 
 export const useSignIn = (

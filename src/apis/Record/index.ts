@@ -2,15 +2,16 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 
 import { RECORD_KEY } from "@/apis/Record/keys";
+import { apiClient } from "@/utils/api-client";
 
-export const getCommuteRecordList = async () => {
-    //
+export const getRecentCommuteRecordList = async () => {
+    return await apiClient.get("/api/commute-records/recent");
 };
 
-export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
+export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {
     return useQuery(
         [RECORD_KEY.GET_COMMUTE_RECORD_LIST],
-        () => getCommuteRecordList(),
+        () => getRecentCommuteRecordList(),
         {
             onSuccess: (res) => {
                 options?.onSuccess?.(res);
@@ -24,7 +25,9 @@ export const useGetCommuteRecordList = (options?: UseQueryOptions) => {
 };
 
 export const getWeekCommuteRecordList = async (mondayDate: Dayjs) => {
-    console.log(mondayDate);
+    return await apiClient.get("/api/commute-records/week", {
+        params: mondayDate,
+    });
 };
 
 export const useGetWeekCommuteRecordList = (
@@ -34,6 +37,29 @@ export const useGetWeekCommuteRecordList = (
     return useQuery(
         [RECORD_KEY.GET_WEEK_COMMUTE_RECORD_LIST, mondayDate],
         () => getWeekCommuteRecordList(mondayDate),
+        {
+            onSuccess: (res) => {
+                options?.onSuccess?.(res);
+            },
+            onError: (err) => {
+                options?.onError?.(err);
+            },
+            enabled: !!options?.enabled,
+        }
+    );
+};
+
+export const getUserCommuteRecordList = async (userId: number) => {
+    return await apiClient.get(`/api/commute-records/user/${userId}`);
+};
+
+export const useGetUserCommuteRecordList = (
+    userId: number,
+    options?: UseQueryOptions
+) => {
+    return useQuery(
+        [RECORD_KEY.GET_USER_COMMUTE_RECORD_LIST, userId],
+        () => getUserCommuteRecordList(userId),
         {
             onSuccess: (res) => {
                 options?.onSuccess?.(res);

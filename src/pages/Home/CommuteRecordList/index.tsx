@@ -3,7 +3,7 @@ import React from "react";
 import dayjs from "dayjs";
 import { useAtom, useSetAtom } from "jotai";
 
-import { useGetCommuteRecordList } from "@/apis/Record";
+import { useGetRecentCommuteRecordList } from "@/apis/Record";
 import {
     commuteButtonStateAtom,
     commuteRecordListAtom,
@@ -21,7 +21,7 @@ export const CommuteRecordList = () => {
     const setLastCommuteRecord = useSetAtom(lastCommuteRecordAtom);
     const setWeekWorkTime = useSetAtom(weekWorkTimeAtom);
 
-    const { isLoading, isError } = useGetCommuteRecordList({
+    const { isLoading, isError } = useGetRecentCommuteRecordList({
         onSuccess: (res: any) => {
             if (res.length > 0) {
                 setCommuteRecordList(res);

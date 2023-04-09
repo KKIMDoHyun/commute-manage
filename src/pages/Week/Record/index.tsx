@@ -25,14 +25,14 @@ export const Record = () => {
 
     if (isLoading) {
         return (
-            <div className="flex flex-[8] w-full h-full items-center justify-center border-black">
+            <div className="flex flex-[8] w-full h-full items-center justify-center border-black border-2">
                 로딩중...
             </div>
         );
     }
     if (isError) {
         return (
-            <div className="flex flex-[8] w-full h-full items-center justify-center border-black">
+            <div className="flex flex-[8] w-full h-full items-center justify-center border-black border-2">
                 에러...
             </div>
         );
