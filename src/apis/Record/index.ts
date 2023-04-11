@@ -5,7 +5,7 @@ import { RECORD_KEY } from "@/apis/Record/keys";
 import { apiClient } from "@/utils/api-client";
 
 export const getRecentCommuteRecordList = async () => {
-    return await apiClient.get("/api/commute-records/recent");
+    return await apiClient.get("https://localhost:3000/commute-records/recent");
 };
 
 export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {

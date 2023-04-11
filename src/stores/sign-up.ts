@@ -6,4 +6,6 @@ export const passwordAtom = atom("");
 
 export const rePasswordAtom = atom("");
 
+export const nameAtom = atom("");
+
 export const errorMessageAtom = atom("");

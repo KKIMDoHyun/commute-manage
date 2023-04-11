@@ -8,11 +8,14 @@ export const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [errMessage] = React.useState("");
+    const [errMessage, setErrMessage] = React.useState("");
 
     const handleSignIn = async (payload: AuthType) => {
-        //
-        console.log(payload);
+        if (payload.email === "" || payload.password === "") {
+            setErrMessage("아이디 또는 비밀번호가 입력되지 않았습니다.");
+        } else {
+            console.log(payload);
+        }
     };
 
     return (
@@ -25,12 +28,14 @@ export const SignIn = () => {
                             className="flex flex-1 w-full border-[1px] border-black rounded-xl p-4"
                             type="email"
                             value={email}
+                            placeholder="이메일을 입력하세요."
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <input
                             className="flex flex-1 w-full border-[1px] border-black rounded-xl p-4"
                             type="password"
                             value={password}
+                            placeholder="비밀번호를 입력하세요."
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
@@ -54,14 +59,14 @@ export const SignIn = () => {
                         <span className="text-lg">ID 저장</span>
                     </label>
                     <span className="text-lg">|</span>
-                    <span
+                    <button
                         className="text-lg"
                         onClick={() => {
                             navigate("/sign-up");
                         }}
                     >
                         회원가입
-                    </span>
+                    </button>
                 </div>
             </div>
         </div>
