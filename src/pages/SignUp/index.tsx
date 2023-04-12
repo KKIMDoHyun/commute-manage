@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 
 import { useSignUp } from "@/apis/Auth";
 import { TmaxLogo } from "@/components/TmaxLogo";
 import { Input } from "@/pages/SignUp/Input";
 import {
     emailAtom,
-    errorMessageAtom,
     nameAtom,
     passwordAtom,
     rePasswordAtom,
@@ -15,13 +15,24 @@ import {
 import { EmailRegex } from "@/utils/regex";
 
 export const SignUp = () => {
+    const navigate = useNavigate();
     const email = useAtomValue(emailAtom);
     const password = useAtomValue(passwordAtom);
     const rePassword = useAtomValue(rePasswordAtom);
     const name = useAtomValue(nameAtom);
-    const [errorMessage, setErrorMessage] = useAtom(errorMessageAtom);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const signUpMutation = useSignUp({ email, password, name });
+    const signUpMutation = useSignUp(
+        { email, password, name },
+        {
+            onSuccess: () => {
+                navigate("/sign-in");
+            },
+            onError: (err: any) => {
+                setErrorMessage(err.response.data.message);
+            },
+        }
+    );
 
     const handleSignUp = () => {
         setErrorMessage("");
@@ -36,7 +47,8 @@ export const SignUp = () => {
         }
         if (!EmailRegex.test(email)) {
             setErrorMessage("이메일 형식이 옳바르지 않습니다.");
-        } else if (errorMessage === "") {
+        }
+        if (errorMessage === "") {
             signUpMutation.mutate();
         }
     };
