@@ -2,13 +2,13 @@ import { UseQueryOptions, useMutation } from "@tanstack/react-query";
 
 import { AUTH_KEY } from "@/apis/Auth/keys";
 import { signInInputDto, signUpInputDto } from "@/types/Auth";
-import { apiClient } from "@/utils/api-client";
+import { instance } from "@/utils/axios-instance";
 
 /**
  * 회원가입
  */
 export const signUp = async (payload: signUpInputDto) => {
-    return await apiClient.post("/auth/sign-up", payload);
+    return await instance.post("/auth/sign-up", payload);
     // return await axios.post("http://localhost:3000/auth/sign-up", payload);
 };
 
@@ -31,7 +31,7 @@ export const useSignUp = (
  * 로그인
  */
 export const signIn = async (payload: signInInputDto) => {
-    return await apiClient.post("/api/auth/sign-in", payload);
+    return await instance.post("/api/auth/sign-in", payload);
 };
 
 export const useSignIn = (

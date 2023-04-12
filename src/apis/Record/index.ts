@@ -2,10 +2,12 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 
 import { RECORD_KEY } from "@/apis/Record/keys";
-import { apiClient } from "@/utils/api-client";
+import { instance } from "@/utils/axios-instance";
+
+// import { instance } from "@/utils/api-client";
 
 export const getRecentCommuteRecordList = async () => {
-    return await apiClient.get("https://localhost:3000/commute-records/recent");
+    return await instance.get("https://localhost:3000/commute-records/recent");
 };
 
 export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {
@@ -25,7 +27,7 @@ export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {
 };
 
 export const getWeekCommuteRecordList = async (mondayDate: Dayjs) => {
-    return await apiClient.get("/api/commute-records/week", {
+    return await instance.get("/api/commute-records/week", {
         params: mondayDate,
     });
 };
@@ -50,7 +52,7 @@ export const useGetWeekCommuteRecordList = (
 };
 
 export const getUserCommuteRecordList = async (userId: number) => {
-    return await apiClient.get(`/api/commute-records/user/${userId}`);
+    return await instance.get(`/api/commute-records/user/${userId}`);
 };
 
 export const useGetUserCommuteRecordList = (
