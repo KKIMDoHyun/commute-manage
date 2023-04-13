@@ -9,7 +9,6 @@ import { instance } from "@/utils/axios-instance";
  */
 export const signUp = async (payload: signUpInputDto) => {
     return await instance.post("/auth/sign-up", payload);
-    // return await axios.post("http://localhost:3000/auth/sign-up", payload);
 };
 
 export const useSignUp = (
@@ -31,7 +30,7 @@ export const useSignUp = (
  * 로그인
  */
 export const signIn = async (payload: signInInputDto) => {
-    return await instance.post("/api/auth/sign-in", payload);
+    return await instance.post("/auth/sign-in", payload);
 };
 
 export const useSignIn = (

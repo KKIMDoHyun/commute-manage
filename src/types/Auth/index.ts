@@ -6,6 +6,12 @@ export type signUpFormType = {
     errorInput: string;
 };
 
+export type signInFormType = {
+    email: string;
+    password: string;
+    // [TODO] ID 저장 boolean 값 추가
+};
+
 export type signUpInputDto = {
     email: string;
     password: string;

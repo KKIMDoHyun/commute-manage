@@ -32,23 +32,20 @@ export const SignUp = () => {
     return (
         <div className="flex flex-1 flex-col w-full h-full items-center justify-center gap-7">
             <TmaxLogo />
-            <div className="flex flex-col w-[21rem] border-2 border-neutral-500 p-3">
-                <div className="flex flex-col w-full gap-2">
-                    <FormProvider {...methods}>
-                        <EmailInput />
-                        <PasswordInput />
-                        <RePasswordInput />
-                        <NameInput />
-                        <SignUpButton />
-                    </FormProvider>
-                </div>
-                <div className="flex w-full mt-2 justify-center items-center">
-                    <span className="text-sm text-red-600 font-semibold">
-                        {/* {errorMessage} */}
-                    </span>
-                </div>
+            <div className="flex flex-col w-[21rem] border-2 border-neutral-500 p-3 gap-2">
+                <FormProvider {...methods}>
+                    <EmailInput />
+                    <PasswordInput />
+                    <RePasswordInput />
+                    <NameInput />
+                    <SignUpButton />
+                </FormProvider>
             </div>
-            <button>
+            <button
+                onClick={() => {
+                    navigate("/sign-in");
+                }}
+            >
                 <span className="font-bold text-sm">로그인하러 가기</span>
             </button>
             {isSuccessSignUp && (
