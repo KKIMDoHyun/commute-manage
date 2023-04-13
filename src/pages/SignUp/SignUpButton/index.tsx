@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+
+import { useSetAtom } from "jotai";
 
 import { useSignUp } from "@/apis/Auth";
+import { isSuccessSignUpAtom } from "@/stores/auth";
 import { signUpInputDto } from "@/types/Auth";
 
 export const SignUpButton = () => {
-    const navigate = useNavigate();
+    const setIsSuccessSignUp = useSetAtom(isSuccessSignUpAtom);
     const { handleSubmit } = useFormContext<signUpInputDto>();
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
@@ -16,7 +18,7 @@ export const SignUpButton = () => {
         { email: emailInput, password: passwordInput, name: nameInput },
         {
             onSuccess: () => {
-                navigate("/sign-in");
+                setIsSuccessSignUp(true);
             },
             onError: (err: any) => {
                 console.log(err.response.data);
