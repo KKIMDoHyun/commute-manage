@@ -7,7 +7,7 @@ import { instance } from "@/utils/axios-instance";
 // import { instance } from "@/utils/api-client";
 
 export const getRecentCommuteRecordList = async () => {
-    return await instance.get("https://localhost:3000/commute-records/recent");
+    return await instance.get("/commute-records/recent");
 };
 
 export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {

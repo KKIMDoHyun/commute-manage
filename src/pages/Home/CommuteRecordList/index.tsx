@@ -23,16 +23,17 @@ export const CommuteRecordList = () => {
 
     const { isLoading, isError } = useGetRecentCommuteRecordList({
         onSuccess: (res: any) => {
-            if (res.length > 0) {
-                setCommuteRecordList(res);
-                setLastCommuteRecord(res[0]);
-                if (res[0].leave_time === null) {
+            console.log(res.data);
+            if (res.data.length > 0) {
+                setCommuteRecordList(res.data);
+                setLastCommuteRecord(res.data[0]);
+                if (res.data[0].leave_time === null) {
                     setCommuteButtonState("LEAVE");
                 } else {
                     setCommuteButtonState("ARRIVE");
                 }
-                const workTime = res
-                    .slice(0, dayjs(res[0].todayDate).get("day"))
+                const workTime = res.data
+                    .slice(0, dayjs(res.data[0].today_date).get("day"))
                     .map((v: TCommuteRecordList) => v.work_time)
                     .reduce((a: number, b: number) => a + b, 0);
                 setWeekWorkTime(workTime);
@@ -79,17 +80,19 @@ export const CommuteRecordList = () => {
                                 </span>
                             </div>
                         )}
-                        <div className="flex p-2 box-border items-center font-bold bg-slate-300 h-10">
-                            <span className="flex flex-[1.5] items-center justify-center text-sm">
-                                {DateFormat(v.arrive_time)}
-                            </span>
-                            <span className="flex flex-1 justify-center items-center text-red-600">
-                                {TimeFormat(v.arrive_time)}
-                            </span>
-                            <span className="flex flex-1 justify-center items-center text-red-600">
-                                IN
-                            </span>
-                        </div>
+                        {v.arrive_time && (
+                            <div className="flex p-2 box-border items-center font-bold bg-slate-300 h-10">
+                                <span className="flex flex-[1.5] items-center justify-center text-sm">
+                                    {DateFormat(v.arrive_time)}
+                                </span>
+                                <span className="flex flex-1 justify-center items-center text-red-600">
+                                    {TimeFormat(v.arrive_time)}
+                                </span>
+                                <span className="flex flex-1 justify-center items-center text-red-600">
+                                    IN
+                                </span>
+                            </div>
+                        )}
                     </div>
                 );
             })}

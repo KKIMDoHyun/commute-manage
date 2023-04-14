@@ -3,6 +3,7 @@ import { SubmitHandler, useFormContext } from "react-hook-form";
 
 import { useSignIn } from "@/apis/Auth";
 import { signInFormType, signUpInputDto } from "@/types/Auth";
+import { getCookies } from "@/utils/Cookies";
 
 export const SignInButton = () => {
     const { handleSubmit } = useFormContext<signUpInputDto>();
@@ -15,6 +16,14 @@ export const SignInButton = () => {
         {
             onSuccess: (res: any) => {
                 console.log(res.data);
+                // setCookies("Authorization", `Bearer ${res.data.accessToken}`, {
+                //     path: "/",
+                //     sameSite: "none",
+                //     secure: true,
+                // });
+                console.log(getCookies("Authorization"));
+                // console.log(getCookies("Refresh"));
+                // console.log(getCookies("Authentication"));
             },
             onError: (err: any) => {
                 setErrorMessage(err.response.data.message);
