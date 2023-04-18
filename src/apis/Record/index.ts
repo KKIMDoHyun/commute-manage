@@ -32,9 +32,12 @@ export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {
 };
 
 export const getWeekCommuteRecordList = async (mondayDate: Dayjs) => {
-    return await instance.get("/api/commute-records/week", {
-        params: mondayDate,
-    });
+    console.log("WEFW", mondayDate.format());
+    return await instance
+        .get("/commute-records/week", {
+            params: { mondayDate: mondayDate },
+        })
+        .then((res) => res.data);
 };
 
 export const useGetWeekCommuteRecordList = (

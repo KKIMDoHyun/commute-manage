@@ -4,7 +4,7 @@ export type TCommuteRecordList = {
     todayDate: string;
     arrive_time: string;
     leave_time: string;
-    work_time: string;
+    work_time: number;
     is_am: boolean;
     is_pm: boolean;
     is_annual: boolean;
