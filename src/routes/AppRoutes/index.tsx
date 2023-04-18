@@ -6,14 +6,17 @@ import { Home } from "@/pages/Home";
 import { SignIn } from "@/pages/SignIn";
 import { SignUp } from "@/pages/SignUp";
 import { Week } from "@/pages/Week";
+import { ProtectedRoute } from "@/routes/ProtectedRoute";
 
-export const AppRoutes = () => {
+export const AppRoutes: React.FC = () => {
     return (
         <div className="flex flex-col flex-1">
             <Routes>
-                <Route element={<BottomBar />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/week" element={<Week />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<BottomBar />}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/week" element={<Week />} />
+                    </Route>
                 </Route>
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />

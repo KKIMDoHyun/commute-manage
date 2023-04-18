@@ -1,11 +1,12 @@
 import { AxiosInstance } from "axios";
 
+import { instance } from "@/utils/axios-instance";
+
 export function setInterceptors(axiosInstance: AxiosInstance) {
     // 요청 (request) interceptor
     axiosInstance.interceptors.request.use(
         // 요청을 보내기 전 수행할 작업
         (config) => {
-            console.log(config);
             return config;
         },
         // 오류 요청 가공
@@ -22,8 +23,26 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
             return res;
         },
         // 200 대 이외의 오류 응답을 가공
-        (err) => {
-            return Promise.reject(err);
+        async (err) => {
+            const {
+                config,
+                response: { status },
+            } = err;
+            const originRequest = config;
+            console.log(status);
+            if (status === 401) {
+                try {
+                    const res = await instance.get(
+                        "http://localhost:3000/auth/refresh"
+                    );
+                    console.log(res);
+                } catch (error) {
+                    console.log("AccessToken 재발급 에러");
+                }
+                return instance(originRequest);
+            } else {
+                return Promise.reject(err);
+            }
         }
     );
 

@@ -85,7 +85,7 @@ export const useSetPmHolidayMutation = (options?: UseQueryOptions) => {
  * 연차/공휴일 버튼 클릭 시
  */
 export const setAnnualHoliday = async () => {
-    return await instance.patch("/commute-records/annual");
+    return await instance.patch("/commute-records/annual_holiday");
 };
 
 export const useSetAnnualHolidayMutation = (options?: UseQueryOptions) => {

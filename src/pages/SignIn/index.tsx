@@ -10,13 +10,13 @@ import { signInFormType } from "@/types/Auth";
 
 export const SignIn = () => {
     const navigate = useNavigate();
-
     const methods = useForm<signInFormType>({
         defaultValues: {
             email: "",
             password: "",
         },
     });
+
     return (
         <div className="flex flex-1 flex-col w-full h-full items-center justify-center gap-9">
             <TmaxLogo />

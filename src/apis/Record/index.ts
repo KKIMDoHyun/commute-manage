@@ -2,12 +2,17 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Dayjs } from "dayjs";
 
 import { RECORD_KEY } from "@/apis/Record/keys";
+import { TCommuteRecordList } from "@/types/Commute";
 import { instance } from "@/utils/axios-instance";
 
 // import { instance } from "@/utils/api-client";
 
-export const getRecentCommuteRecordList = async () => {
-    return await instance.get("/commute-records/recent");
+export const getRecentCommuteRecordList = async (): Promise<
+    TCommuteRecordList[]
+> => {
+    return await instance
+        .get("/commute-records/recent")
+        .then((res) => res.data);
 };
 
 export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {

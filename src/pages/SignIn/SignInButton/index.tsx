@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { useSignIn } from "@/apis/Auth";
 import { signInFormType, signUpInputDto } from "@/types/Auth";
-import { getCookies } from "@/utils/Cookies";
 
 export const SignInButton = () => {
+    const navigate = useNavigate();
     const { handleSubmit } = useFormContext<signUpInputDto>();
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
@@ -16,14 +17,7 @@ export const SignInButton = () => {
         {
             onSuccess: (res: any) => {
                 console.log(res.data);
-                // setCookies("Authorization", `Bearer ${res.data.accessToken}`, {
-                //     path: "/",
-                //     sameSite: "none",
-                //     secure: true,
-                // });
-                console.log(getCookies("Authorization"));
-                // console.log(getCookies("Refresh"));
-                // console.log(getCookies("Authentication"));
+                navigate("/");
             },
             onError: (err: any) => {
                 setErrorMessage(err.response.data.message);

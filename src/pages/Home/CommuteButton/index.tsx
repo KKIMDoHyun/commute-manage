@@ -2,7 +2,7 @@ import React from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
 import { useSetArriveMutation, useSetLeaveMutation } from "@/apis/Commute";
 import {
@@ -15,9 +15,14 @@ type TCommuteButton = {
     disabled: boolean;
 };
 
-export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
+export const CommuteButton: React.FC<TCommuteButton> = ({
+    commute,
+    disabled,
+}) => {
     const queryClient = useQueryClient();
-    const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
+    const [commuteButtonState, setCommuteButtonState] = useAtom(
+        commuteButtonStateAtom
+    );
     const lastCommuteRecord = useAtomValue(lastCommuteRecordAtom);
 
     const setArriveTimeMutation = useSetArriveMutation({
@@ -59,14 +64,20 @@ export const CommuteButton = ({ commute, disabled }: TCommuteButton) => {
     return (
         <button
             className={`${
+                commuteButtonState === "NONE" ||
+                lastCommuteRecord.is_annual ||
                 disabled
-                    ? "border-2 border-zinc-400 bg-slate-50 w-full h-full"
-                    : "border-2 border-zinc-400 bg-slate-300  w-full h-full"
+                    ? "border-2 border-zinc-400 bg-slate-50 w-full h-full text-slate-300"
+                    : "border-2 border-zinc-400 bg-slate-300  w-full h-full text-black font-bold"
             }`}
-            disabled={disabled}
+            disabled={
+                commuteButtonState === "NONE" || lastCommuteRecord.is_annual
+                    ? true
+                    : disabled
+            }
             onClick={handleCommuteButton}
         >
-            <span className={`${disabled ? "text-slate-300" : "font-bold"}`}>
+            <span>
                 {commute === "ARRIVE" && "출근하기"}
                 {commute === "LEAVE" && "퇴근하기"}
             </span>

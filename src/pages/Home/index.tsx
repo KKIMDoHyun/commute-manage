@@ -18,7 +18,7 @@ export const Home = () => {
             <div className="flex flex-1 flex-col w-full border-t-2 border-black pt-2">
                 <div className="flex flex-1 w-full">
                     <RestButton
-                        type="FULL"
+                        type="ANNUAL"
                         disabled={commuteButtonState === "LEAVE"}
                     />
                     <RestButton

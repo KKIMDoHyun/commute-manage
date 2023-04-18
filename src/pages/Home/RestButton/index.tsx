@@ -1,13 +1,12 @@
 import React from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
 import {
     useSetAmHolidayMutation,
     useSetAnnualHolidayMutation,
-    useSetLeaveMutation,
+    useSetPmHolidayMutation,
 } from "@/apis/Commute";
 import { RECORD_KEY } from "@/apis/Record/keys";
 import {
@@ -15,78 +14,69 @@ import {
     lastCommuteRecordAtom,
 } from "@/stores/commute";
 
-type TRestButton = {
-    type: "FULL" | "AM-HALF" | "PM-HALF";
+type RestButtonProps = {
+    type: "ANNUAL" | "AM-HALF" | "PM-HALF";
     disabled: boolean;
 };
 
-export const RestButton = ({ type, disabled }: TRestButton) => {
+export const RestButton: React.FC<RestButtonProps> = ({ type, disabled }) => {
     const queryClient = useQueryClient();
     const lastCommuteRecord = useAtomValue(lastCommuteRecordAtom);
-    const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
-
+    const commuteButtonState = useAtomValue(commuteButtonStateAtom);
     const setAnnualHolidayMutation = useSetAnnualHolidayMutation({
         onSuccess: () => {
             queryClient.invalidateQueries([RECORD_KEY.GET_COMMUTE_RECORD_LIST]);
         },
-        onError: () => {
-            console.log("에러발생");
+        onError: (err: any) => {
+            console.log("에러발생", err.response.data.message);
         },
     });
     const setAmHolidayMutation = useSetAmHolidayMutation({
         onSuccess: () => {
-            setCommuteButtonState("LEAVE");
             queryClient.invalidateQueries([RECORD_KEY.GET_COMMUTE_RECORD_LIST]);
         },
-        onError: () => {
-            console.log("에러발생");
+        onError: (err: any) => {
+            console.log("에러발생", err.response.data.message);
         },
     });
-    const setLeaveTimeMutation = useSetLeaveMutation({
+    const setLeaveTimeMutation = useSetPmHolidayMutation({
         onSuccess: () => {
-            setCommuteButtonState("ARRIVE");
             queryClient.invalidateQueries([RECORD_KEY.GET_COMMUTE_RECORD_LIST]);
             console.log("퇴근성공");
         },
-        onError: () => {
-            console.log("에러발생");
+        onError: (err: any) => {
+            console.log("에러발생", err.response.data.message);
         },
     });
 
     const handleCommuteButton = () => {
-        if (
-            dayjs().get("date") !==
-            dayjs(lastCommuteRecord?.arrive_time).get("date")
-        ) {
-            if (type === "FULL") {
-                setAnnualHolidayMutation.mutate();
-            } else if (type === "AM-HALF") {
-                setAmHolidayMutation.mutate();
-            }
+        if (type === "ANNUAL") {
+            setAnnualHolidayMutation.mutate();
+        } else if (type === "AM-HALF") {
+            setAmHolidayMutation.mutate();
         } else {
-            if (type === "PM-HALF") {
-                setLeaveTimeMutation.mutate();
-            } else {
-                // [TODO] 모달창 구현
-                alert("이미 출근하셨습니다.");
-            }
+            setLeaveTimeMutation.mutate();
         }
     };
     return (
         <div className="flex flex-1 w-full justify-center items-center gap-3 p-2">
             <button
-                disabled={disabled}
+                disabled={
+                    commuteButtonState === "NONE" || lastCommuteRecord.is_annual
+                        ? true
+                        : disabled
+                }
                 className={`${
+                    commuteButtonState === "NONE" ||
+                    lastCommuteRecord.is_annual ||
                     disabled
-                        ? "border-2 border-zinc-400 bg-slate-50 w-full h-full"
-                        : "border-2 border-zinc-400 bg-slate-300  w-full h-full"
+                        ? "border-2 border-zinc-400 bg-slate-50 w-full h-full text-slate-300"
+                        : "border-2 border-zinc-400 bg-slate-300  w-full h-full text-black font-bold"
                 }`}
                 onClick={handleCommuteButton}
             >
-                <span
-                    className={`${disabled ? "text-slate-300" : "font-bold"}`}
-                >
-                    {type === "FULL" && "연차/공휴일"}
+                <span>
+                    {type === "ANNUAL" && "연차/공휴일"}
                     {type === "AM-HALF" && "오전 반차"}
                     {type === "PM-HALF" && "오후 반차"}
                 </span>
