@@ -5,6 +5,7 @@ import { BottomBar } from "@/components/BottomBar";
 import { Home } from "@/pages/Home";
 import { SignIn } from "@/pages/SignIn";
 import { SignUp } from "@/pages/SignUp";
+import { Team } from "@/pages/Team";
 import { Week } from "@/pages/Week";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 
@@ -16,6 +17,7 @@ export const AppRoutes: React.FC = () => {
                     <Route element={<BottomBar />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/week" element={<Week />} />
+                        <Route path="/team" element={<Team />} />
                     </Route>
                 </Route>
                 <Route path="/sign-in" element={<SignIn />} />

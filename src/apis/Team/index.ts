@@ -5,7 +5,7 @@ import { TEAM_KEY } from "@/apis/Team/keys";
 import { instance } from "@/utils/axios-instance";
 
 export const getTeamMemberList = async () => {
-    return await instance.get("/api/team/members");
+    return await instance.get("/team/members").then((res) => res.data);
 };
 
 export const useGetTeamMemberList = (options?: UseQueryOptions) => {

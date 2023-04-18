@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 const path = [
     { route: "/", name: "홈" },
     { route: "/week", name: "주간" },
+    { route: "/team", name: "팀" },
 ];
 export const BottomBar = () => {
     const navigate = useNavigate();
