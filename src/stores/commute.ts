@@ -10,7 +10,7 @@ export const lastCommuteRecordAtom = atom<TCommuteRecordList>({
     todayDate: "",
     arrive_time: "",
     leave_time: "",
-    work_time: "",
+    work_time: 0,
     is_am: false,
     is_pm: false,
     is_annual: false,

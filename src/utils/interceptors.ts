@@ -29,15 +29,12 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
                 response: { status },
             } = err;
             const originRequest = config;
-            console.log(status);
             if (status === 401) {
                 try {
-                    const res = await instance.get(
-                        "http://localhost:3000/auth/refresh"
-                    );
-                    console.log(res);
+                    await instance.get("/auth/refresh");
                 } catch (error) {
                     console.log("AccessToken 재발급 에러");
+                    throw new Error(err);
                 }
                 return instance(originRequest);
             } else {

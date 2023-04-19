@@ -7,7 +7,9 @@ import { SignIn } from "@/pages/SignIn";
 import { SignUp } from "@/pages/SignUp";
 import { Team } from "@/pages/Team";
 import { Week } from "@/pages/Week";
+import { MasterRoute } from "@/routes/MasterRoute";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
+import { UnAuthRoute } from "@/routes/UnAuthRoute";
 
 export const AppRoutes: React.FC = () => {
     return (
@@ -17,11 +19,20 @@ export const AppRoutes: React.FC = () => {
                     <Route element={<BottomBar />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/week" element={<Week />} />
-                        <Route path="/team" element={<Team />} />
+                        <Route
+                            path="/team"
+                            element={
+                                <MasterRoute>
+                                    <Team />
+                                </MasterRoute>
+                            }
+                        />
                     </Route>
                 </Route>
-                <Route path="/sign-in" element={<SignIn />} />
-                <Route path="/sign-up" element={<SignUp />} />
+                <Route element={<UnAuthRoute />}>
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                </Route>
             </Routes>
         </div>
     );

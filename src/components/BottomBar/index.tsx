@@ -1,14 +1,18 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 
-const path = [
+import { getCookies } from "@/utils/Cookies";
+
+const publicPath = [
     { route: "/", name: "홈" },
     { route: "/week", name: "주간" },
-    { route: "/team", name: "팀" },
 ];
+const masterPath = [...publicPath, { route: "/team", name: "팀" }];
+
 export const BottomBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const path = getCookies("isMaster") === "true" ? masterPath : publicPath;
     return (
         <>
             <Outlet />
