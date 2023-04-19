@@ -3,7 +3,10 @@ import { Navigate } from "react-router-dom";
 
 import { getCookies } from "@/utils/Cookies";
 
-export const MasterRoute = ({ children }: any) => {
+type TMasterRoute = {
+    children: JSX.Element;
+};
+export const MasterRoute: React.FC<TMasterRoute> = ({ children }) => {
     const isMaster = getCookies("isMaster");
     if (isMaster === "true") {
         return children;
