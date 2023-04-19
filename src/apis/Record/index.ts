@@ -32,7 +32,6 @@ export const useGetRecentCommuteRecordList = (options?: UseQueryOptions) => {
 };
 
 export const getWeekCommuteRecordList = async (mondayDate: Dayjs) => {
-    console.log("WEFW", mondayDate.format());
     return await instance
         .get("/commute-records/week", {
             params: { mondayDate: mondayDate },
