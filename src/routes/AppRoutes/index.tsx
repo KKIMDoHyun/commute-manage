@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import { BottomBar } from "@/components/BottomBar";
 import { Home } from "@/pages/Home";
+import { MyPage } from "@/pages/MyPage";
 import { SignIn } from "@/pages/SignIn";
 import { SignUp } from "@/pages/SignUp";
 import { Team } from "@/pages/Team";
@@ -18,6 +19,7 @@ export const AppRoutes: React.FC = () => {
                     <Route element={<BottomBar />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/week" element={<Week />} />
+                        <Route path="/my-page" element={<MyPage />} />
                         <Route
                             path="/team"
                             element={

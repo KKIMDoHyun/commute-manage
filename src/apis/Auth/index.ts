@@ -30,7 +30,9 @@ export const useSignUp = (
  * 로그인
  */
 export const signIn = async (payload: signInInputDto) => {
-    return await instance.post("/auth/sign-in", payload);
+    return await instance
+        .post("/auth/sign-in", payload)
+        .then((res) => res.data);
 };
 
 export const useSignIn = (
@@ -39,6 +41,25 @@ export const useSignIn = (
 ) => {
     return useMutation(() => signIn(payload), {
         mutationKey: [AUTH_KEY.SIGN_IN],
+        onSuccess: (res) => {
+            options?.onSuccess?.(res);
+        },
+        onError: (err) => {
+            options?.onError?.(err);
+        },
+    });
+};
+
+/**
+ * 로그아웃
+ */
+export const signOut = async () => {
+    return await instance.post("/auth/sign-out");
+};
+
+export const useSignOut = (options?: UseQueryOptions) => {
+    return useMutation(() => signOut(), {
+        mutationKey: [AUTH_KEY.SIGN_OUT],
         onSuccess: (res) => {
             options?.onSuccess?.(res);
         },
