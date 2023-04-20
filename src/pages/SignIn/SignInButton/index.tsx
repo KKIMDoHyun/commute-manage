@@ -22,6 +22,7 @@ export const SignInButton = () => {
                     "Authorization"
                 ] = `Bearer ${res.accessToken}`;
                 sessionStorage.setItem("accessToken", res.accessToken);
+                sessionStorage.setItem("isMaster", res.isMaster);
                 navigate("/");
             },
             onError: (err: any) => {

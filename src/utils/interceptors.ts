@@ -31,11 +31,12 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
             const originRequest = config;
             if (status === 401) {
                 try {
-                    const data = await instance.get("/auth/refresh");
+                    const { data } = await instance.get("/auth/refresh");
                     instance.defaults.headers[
                         "Authorization"
-                    ] = `Bearer ${data.data}`;
-                    sessionStorage.setItem("accessToken", data.data);
+                    ] = `Bearer ${data.accessToken}`;
+                    sessionStorage.setItem("accessToken", data.accessToken);
+                    sessionStorage.setItem("isMaster", data.isMaster);
                 } catch (error) {
                     console.log("AccessToken 재발급 에러");
                     throw new Error(err);

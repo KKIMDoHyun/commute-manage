@@ -11,8 +11,8 @@ const masterPath = [...publicPath, { route: "/team", name: "팀" }];
 export const BottomBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    // const path = getCookies("isMaster") === "true" ? masterPath : publicPath;
-    const path = masterPath;
+    const path =
+        sessionStorage.getItem("isMaster") === "true" ? masterPath : publicPath;
     return (
         <>
             <Outlet />

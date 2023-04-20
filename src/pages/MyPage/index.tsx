@@ -6,9 +6,8 @@ import { useSignOut } from "@/apis/Auth";
 export const MyPage = () => {
     const navigate = useNavigate();
     const signOutMutation = useSignOut({
-        onSuccess: (res: any) => {
-            console.log(res);
-            sessionStorage.removeItem("accessToken");
+        onSuccess: () => {
+            sessionStorage.clear();
             navigate("/sign-in");
         },
         onError: (err: any) => {
