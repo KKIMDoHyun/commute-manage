@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useSignIn } from "@/apis/Auth";
 import { signInFormType, signUpInputDto } from "@/types/Auth";
+import { instance } from "@/utils/axios-instance";
 
 export const SignInButton = () => {
     const navigate = useNavigate();
@@ -16,7 +17,11 @@ export const SignInButton = () => {
         { email: emailInput, password: passwordInput },
         {
             onSuccess: (res: any) => {
-                console.log(res.data);
+                console.log(res);
+                instance.defaults.headers[
+                    "Authorization"
+                ] = `Bearer ${res.accessToken}`;
+                sessionStorage.setItem("accessToken", res.accessToken);
                 navigate("/");
             },
             onError: (err: any) => {

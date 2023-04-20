@@ -31,7 +31,11 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
             const originRequest = config;
             if (status === 401) {
                 try {
-                    await instance.get("/auth/refresh");
+                    const data = await instance.get("/auth/refresh");
+                    instance.defaults.headers[
+                        "Authorization"
+                    ] = `Bearer ${data.data}`;
+                    sessionStorage.setItem("accessToken", data.data);
                 } catch (error) {
                     console.log("AccessToken 재발급 에러");
                     throw new Error(err);
