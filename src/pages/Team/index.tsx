@@ -7,7 +7,6 @@ export const Team = () => {
     const [teamMembers, setTeamMembers] = useState<TTeamMember | null>();
     const { isLoading, isError } = useGetTeamMemberList({
         onSuccess: (res: any) => {
-            console.log(res);
             setTeamMembers(res);
         },
         enabled: true,

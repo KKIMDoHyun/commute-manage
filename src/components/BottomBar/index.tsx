@@ -28,7 +28,11 @@ export const BottomBar = () => {
                                         : "flex w-full justify-center items-center bg-white"
                                 }`}
                                 onClick={() => {
-                                    navigate(v.route);
+                                    if (v.route === "/team") {
+                                        alert("미구현입니다.");
+                                    } else {
+                                        navigate(v.route);
+                                    }
                                 }}
                             >
                                 {v.name}

@@ -52,10 +52,7 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
                         console.log("AccessToken 재발급 에러");
                         throw new Error(err);
                     }
-                    console.log(
-                        "새로운 요청",
-                        originRequest.headers.authorization
-                    );
+
                     return instance(originRequest);
                 }
             } else {

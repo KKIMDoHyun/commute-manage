@@ -7,10 +7,11 @@ type TAuthRoute = {
 export const AuthRoute: React.FC<TAuthRoute> = ({ auth }) => {
     const [token, setToken] = useState<string | null>("");
     const lo = useLocation();
+
     useEffect(() => {
         setToken(sessionStorage.getItem("accessToken"));
     }, [lo.pathname]);
-    // console.log("AuthRoute");
+
     if (auth) {
         if (token) {
             return <Outlet />;

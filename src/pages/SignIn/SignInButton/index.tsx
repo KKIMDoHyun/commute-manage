@@ -17,7 +17,6 @@ export const SignInButton = () => {
         { email: emailInput, password: passwordInput },
         {
             onSuccess: (res: any) => {
-                console.log(res);
                 instance.defaults.headers[
                     "Authorization"
                 ] = `Bearer ${res.accessToken}`;
