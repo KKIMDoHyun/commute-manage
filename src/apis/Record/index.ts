@@ -5,8 +5,6 @@ import { RECORD_KEY } from "@/apis/Record/keys";
 import { TCommuteRecordList } from "@/types/Commute";
 import { instance } from "@/utils/axios-instance";
 
-// import { instance } from "@/utils/api-client";
-
 export const getRecentCommuteRecordList = async (): Promise<
     TCommuteRecordList[]
 > => {

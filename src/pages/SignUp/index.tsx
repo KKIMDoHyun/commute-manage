@@ -12,7 +12,6 @@ import { RePasswordInput } from "@/pages/SignUp/RePasswordInput";
 import { SignUpButton } from "@/pages/SignUp/SignUpButton";
 import { isSuccessSignUpAtom } from "@/stores/auth";
 import { signUpFormType } from "@/types/Auth";
-import { getCookies } from "@/utils/Cookies";
 
 export const SignUp = () => {
     const navigate = useNavigate();
@@ -27,8 +26,6 @@ export const SignUp = () => {
     });
 
     useEffect(() => {
-        console.log(getCookies("Refresh"));
-        console.log(getCookies("Authentication"));
         setIsSuccessSignUp(false);
     }, []);
 

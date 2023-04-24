@@ -20,7 +20,6 @@ export const CommuteRecordList = () => {
     const setCommuteButtonState = useSetAtom(commuteButtonStateAtom);
     const setLastCommuteRecord = useSetAtom(lastCommuteRecordAtom);
     const setWeekWorkTime = useSetAtom(weekWorkTimeAtom);
-    const test = true;
 
     const { isLoading, isError } = useGetRecentCommuteRecordList({
         onSuccess: (res: any) => {
@@ -44,9 +43,7 @@ export const CommuteRecordList = () => {
                 setWeekWorkTime(workTime);
             }
         },
-        enabled: test,
-        staleTime: Infinity,
-        cacheTime: Infinity,
+        enabled: true,
     });
     if (isLoading) {
         return (

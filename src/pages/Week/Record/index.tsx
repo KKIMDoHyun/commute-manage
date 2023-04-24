@@ -13,29 +13,22 @@ export const Record = () => {
         TCommuteRecordList[]
     >([]);
     const [totalWorkTime, setTotalWorkTime] = useState<number>(0);
-    const { isLoading, isError, refetch } = useGetWeekCommuteRecordList(
-        mondayDate,
-        {
-            onSuccess: (res: any) => {
-                setWeekCommuteRecord(res);
-                const workTime =
-                    res.length > 0
-                        ? res
-                              .map((v: TCommuteRecordList) => v.work_time)
-                              .reduce((a: number, b: number) => a + b)
-                        : 0;
+    const { isLoading, isError } = useGetWeekCommuteRecordList(mondayDate, {
+        onSuccess: (res: any) => {
+            setWeekCommuteRecord(res);
+            const workTime =
+                res.length > 0
+                    ? res
+                          .map((v: TCommuteRecordList) => v.work_time)
+                          .reduce((a: number, b: number) => a + b)
+                    : 0;
 
-                setTotalWorkTime(workTime);
-            },
-            enabled: false,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        }
-    );
-
-    React.useEffect(() => {
-        refetch();
-    }, [mondayDate]);
+            setTotalWorkTime(workTime);
+        },
+        enabled: true,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+    });
 
     if (isLoading) {
         return (

@@ -1,17 +1,13 @@
 import React from "react";
 
-import dayjs from "dayjs";
 import { useAtom } from "jotai";
 
 import { ArrowBeforeIcon, ArrowNextIcon } from "@/assets/Icons";
-import { getMonday, getWeek, mondayDateAtom } from "@/stores/week-record";
+import { getWeek, mondayDateAtom } from "@/stores/week-record";
 
 export const ChangeWeek = () => {
     const [mondayDate, setMondayDate] = useAtom(mondayDateAtom);
 
-    React.useEffect(() => {
-        setMondayDate(getMonday(dayjs()));
-    }, []);
     return (
         <div className="flex flex-[1] flex-col w-full justify-center items-center gap-1">
             <div className="flex gap-5 justify-center items-center">

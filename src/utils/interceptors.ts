@@ -7,6 +7,8 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
     axiosInstance.interceptors.request.use(
         // 요청을 보내기 전 수행할 작업
         (config) => {
+            instance.defaults.headers["Authorization"] =
+                sessionStorage.getItem("accessToken");
             return config;
         },
         // 오류 요청 가공
@@ -30,18 +32,32 @@ export function setInterceptors(axiosInstance: AxiosInstance) {
             } = err;
             const originRequest = config;
             if (status === 401) {
-                try {
-                    const { data } = await instance.get("/auth/refresh");
-                    instance.defaults.headers[
-                        "Authorization"
-                    ] = `Bearer ${data.accessToken}`;
-                    sessionStorage.setItem("accessToken", data.accessToken);
-                    sessionStorage.setItem("isMaster", data.isMaster);
-                } catch (error) {
-                    console.log("AccessToken 재발급 에러");
-                    throw new Error(err);
+                if (
+                    err.response.data.message === "No Access Token" ||
+                    err.response.data.message === "Expired Refresh Token" ||
+                    err.response.data.message === "No Refresh Token"
+                ) {
+                    // 로그인 페이지 이동
+                    sessionStorage.clear();
+                    window.location.href = "/sign-in";
+                } else {
+                    // expired access token
+                    try {
+                        const { data } = await instance.post("/auth/refresh");
+
+                        sessionStorage.setItem("accessToken", data.accessToken);
+                        sessionStorage.setItem("isMaster", data.isMaster);
+                        originRequest.headers.authorization = `Bearer ${data.accessToken}`;
+                    } catch (error) {
+                        console.log("AccessToken 재발급 에러");
+                        throw new Error(err);
+                    }
+                    console.log(
+                        "새로운 요청",
+                        originRequest.headers.authorization
+                    );
+                    return instance(originRequest);
                 }
-                return instance(originRequest);
             } else {
                 return Promise.reject(err);
             }
